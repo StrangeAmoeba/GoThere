@@ -27,7 +27,7 @@ func Merge_Sort(s []float64) []float64 {
 		parallel_mergesort(s)
 	}
 
-	return s
+	return s[diff:]
 	// fmt.Printf("%v", s)
 }
 
@@ -46,6 +46,7 @@ func normal_mergesort(s []float64) {
 
 
 func parallel_mergesort(s []float64) {
+	// fmt.Println("using parallel")
 
 	if len(s) > 1 {
 		var len int = len(s)
