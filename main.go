@@ -5,7 +5,7 @@ import (
   "fmt"
   "net/http"
   "os"
-  "server"
+  "concurrency-9/server"
 )
 
 func determineListenAddress() (string, error) {
@@ -31,6 +31,6 @@ func main() {
     panic(err)
   }
 
-  //testing
+  // testing
   fmt.Println(server.Locations())
 }
