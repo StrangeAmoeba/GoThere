@@ -21,6 +21,10 @@ func hello(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+  // testing - harsha
+  server.Dist_matrix()
+
+  // web app
   addr, err := determineListenAddress()
   if err != nil {
     log.Fatal(err)
@@ -30,7 +34,4 @@ func main() {
   if err := http.ListenAndServe(addr, nil); err != nil {
     panic(err)
   }
-
-  // testing
-  fmt.Println(server.Locations())
 }
