@@ -4,6 +4,10 @@ type Vertex struct {
   Lat, Long float64
 }
 
+type Weight_tuple struct {
+  Speed, Distance float64
+}
+
 /* google api - json struct starts here */
 
 type Dir_info struct {
