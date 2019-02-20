@@ -79,9 +79,9 @@ type Point struct {
   Pt string `json:"point"`
 }
 
+/* google api - json struct ends here */
+
 type Graph_edge struct {
   Src,Dst int
   Weight float64
 }
-
-/* google api - json struct ends here */
