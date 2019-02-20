@@ -20,7 +20,7 @@ func constructURL(origin, dest dt.Vertex) string {
   return url
 }
 
-func getResponse(url string) {
+func getResponse(url string) []byte{
   resp, err := http.Get(url)
   // handle the error if there is one
   if err != nil {
@@ -33,6 +33,5 @@ func getResponse(url string) {
   if err != nil {
     panic(err)
   }
-  // show the HTML code as a string %s
-  fmt.Printf("%s\n", html)
+  return html
 }
