@@ -5,6 +5,7 @@ import (
   "os"
   "encoding/json"
   "io/ioutil"
+  dt "concurrency-9/data_types"
   )
 
 func Dist_matrix() {
@@ -33,8 +34,8 @@ func getRespFile() {
 
   byteValue, _ := ioutil.ReadAll(jsonFile)
 
-  var result map[string]interface{}
-  json.Unmarshal([]byte(byteValue), &result)
+  var directions dt.Dir_info
+  json.Unmarshal([]byte(byteValue), &directions)
 
-  fmt.Println(result["routes"]["legs"])
+  fmt.Println(directions.Status)
 }

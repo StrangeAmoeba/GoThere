@@ -6,7 +6,7 @@ type Vertex struct {
 
 /* google api - json struct starts here */
 
-type dir_info struct {
+type Dir_info struct {
   Waypoints []Waypoint `json:"geocoded_waypoints"`
   Routes    []Route    `json:"routes"`
   Status    string     `json:"status"`
@@ -29,11 +29,11 @@ type Route struct {
 }
 
 type Corner struct {
-  NorthEast LatLong `json:"northeast"`
-  SouthWest LatLong `json:"southwest"`
+  NorthEast Lat_long `json:"northeast"`
+  SouthWest Lat_long `json:"southwest"`
 }
 
-type LatLong struct {
+type Lat_long struct {
   Lat float64  `json:"lat"`
   Long float64 `json:"lng"`
 }
@@ -41,12 +41,12 @@ type LatLong struct {
 type Leg struct {
   Distance      Info           `json:"distance"`
   Duration      Info           `json:"duration"`
-  EndAddress    string         `json:"end_address"`
-  EndLocation   LatLong        `json:"end_location"`
-  StartAddress  string         `json:"start_address"`
-  StartLocation LatLong        `json:"start_location"`
+  End_address    string         `json:"end_address"`
+  End_location   Lat_long        `json:"end_location"`
+  Start_address  string         `json:"start_address"`
+  Start_location Lat_long        `json:"start_location"`
   Steps         []Step         `json:"steps"`
-  ViaWaypoint   []ViaWaypoint  `json:"via_waypoint"`
+  Via_waypoint   []Via_waypoint  `json:"via_waypoint"`
 }
 
 type Info struct {
@@ -57,18 +57,18 @@ type Info struct {
 type Step struct {
   Distance         Info           `json:"distance"`
   Duration         Info           `json:"duration"`
-  EndLocation      LatLong        `json:"end_location"`
-  HtmlInstructions string         `json:"html_instructions"`
+  End_eocation      Lat_long        `json:"end_location"`
+  Html_instructions string         `json:"html_instructions"`
   Maneuver         string         `json:"maneuver"`
   Polyline         Point          `json:"polyline"`
-  StartLocation    LatLong        `json:"start_location"`
-  TravelMode       string         `json:"travel_mode"`
+  Start_location    Lat_long        `json:"start_location"`
+  Travel_mode       string         `json:"travel_mode"`
 }
 
-type ViaWaypoint struct {
-  Location          LatLong  `json:"location"`
-  StepIndex         int      `json:"step_index"`
-  StepInterpolation float64  `json:"step_interpolation"`
+type Via_waypoint struct {
+  Location          Lat_long  `json:"location"`
+  Step_index         int      `json:"step_index"`
+  Step_interpolation float64  `json:"step_interpolation"`
 }
 
 type Point struct {
