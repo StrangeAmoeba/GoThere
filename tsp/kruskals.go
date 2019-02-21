@@ -1,11 +1,12 @@
 package tsp
 
 import (
-	"fmt"
+	// "fmt"
 	dt "concurrency-9/data_types"
+	"sync"
 )
 
-// this will tak input the matrix coming in from the API
+// this will take input the matrix coming in from the API
 // and convert it into an adjacency list (input type matrix [][]float64)
 
 func Get_adjacency_list (matrix [][]float64) [][]dt.Graph_edge {
@@ -33,10 +34,21 @@ func find(subsets [] subset, i int) int {
     return subsets[i].parent
 }
 
-func Union(subsets []subset, x int, y int) { 
-    xroot := find(subsets, x); 
-    yroot := find(subsets, y); 
-  
+func Union(subsets []subset, x int, y int) {
+
+	// concurrently find the roots of both the 
+	var wg sync.WaitGroup
+	wg.Add(2)
+	var xroot, yroot int
+	go func() {
+		defer wg.Done()
+    	xroot = find(subsets, x);
+	}()
+	go func() {
+		defer wg.Done()
+    	yroot = find(subsets, y); 
+	}()
+  	wg.Wait()
     // Attach smaller rank tree under root of high  
     // rank tree (Union by Rank) 
     if subsets[xroot].rank < subsets[yroot].rank {
@@ -65,21 +77,30 @@ func kruskals (matrix [][]float64) []dt.Graph_edge {
 		subsets = append(subsets,subset{i, 0})
 	}
 	i := 0
-	// fmt.Printf("%v", edges)
+	var wg sync.WaitGroup
 	for e < V - 1 {
-		// i := 0
-		fmt.Printf("%d", i)
 		next_edge := edges[i]
 		i++
-		x := find(subsets, next_edge.Src)
-		y := find(subsets, next_edge.Dst)
+		var x, y int
+		
+		// parallely find the sets of x and y
+
+		wg.Add(2)
+		go func() {
+			defer wg.Done()
+			x = find(subsets, next_edge.Src)
+		}()
+		go func() {
+			defer wg.Done()
+			y = find(subsets, next_edge.Dst)
+		}()
+		wg.Wait()
+
 		if x != y {
 			results = append(results, next_edge)
 			e++
 			Union(subsets, x, y)
 		}
 	}
-	// var set []int = []int {0}
-	// set = set
 	return results
 }

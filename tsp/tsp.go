@@ -25,5 +25,5 @@ func Getmat() [][] float64{
 func Get_MST(matrix [][]float64) []dt.Graph_edge {
 
 	return kruskals(matrix)
-	// fmr.Printf("%v", Merge_Sort(s))
+	// fmt.Printf("%v", Merge_Sort(s))
 }
