@@ -9,10 +9,12 @@ import (
 // this will take input the matrix coming in from the API
 // and convert it into an adjacency list (input type matrix [][]float64)
 
+var number_of_vertices int
+
 func Get_adjacency_list (matrix [][]float64) [][]dt.Graph_edge {
 	var s [][] dt.Graph_edge
 	for i:=0;i<len(matrix);i++ {
-		temp := make([]dt.Graph_edge, number_of_nodes)
+		temp := make([]dt.Graph_edge, number_of_vertices)
 		for j:=0;j<len(matrix[i]);j++ {
 			temp[j] = dt.Graph_edge{i,j,matrix[i][j]}
 		}
@@ -61,7 +63,8 @@ func Union(subsets []subset, x int, y int) {
     } 
 }
 func kruskals (matrix [][]float64) []dt.Graph_edge {
-	V := number_of_nodes
+	number_of_vertices = len(matrix)
+	V := number_of_vertices
 	var results [] dt.Graph_edge
 	s := Get_adjacency_list(matrix)
 	e := 0 // number of edges in results

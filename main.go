@@ -8,6 +8,7 @@ import (
 func main() {
   matrix := tsp.Getmat()
   a := tsp.Get_MST(matrix)
+  a = a
   fmt.Printf("%v", a)
   // tsp.Get_adjacency_list()
 }
