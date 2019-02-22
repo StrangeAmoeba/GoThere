@@ -2,6 +2,7 @@ package data_types
 
 type Vertex struct {
   Lat, Long float64
+  Index int
 }
 
 type Weight_tuple struct {
@@ -23,7 +24,7 @@ type Waypoint struct {
 }
 
 type Route struct {
-  Bound       []Corner    `json:"bounds"`
+  Bound       Corner    `json:"bounds"`
   Cp          string      `json:"copyrights"`
   Legs        []Leg       `json:"legs"`
   Ov_polyline Point  `json:"overview_polyline"` // overview polyline
@@ -38,39 +39,40 @@ type Corner struct {
 }
 
 type Lat_long struct {
-  Lat float64  `json:"lat"`
-  Long float64 `json:"lng"`
+  Lat   float64  `json:"lat"`
+  Long  float64 `json:"lng"`
 }
 
 type Leg struct {
-  Distance      Info           `json:"distance"`
-  Duration      Info           `json:"duration"`
-  End_address    string         `json:"end_address"`
-  End_location   Lat_long        `json:"end_location"`
-  Start_address  string         `json:"start_address"`
-  Start_location Lat_long        `json:"start_location"`
-  Steps         []Step         `json:"steps"`
-  Via_waypoint   []Via_waypoint  `json:"via_waypoint"`
+  Distance              Info           `json:"distance"`
+  Duration              Info           `json:"duration"`
+  Duration_traffic      Info           `json:"duration_in_traffic"`
+  End_address           string         `json:"end_address"`
+  End_location          Lat_long        `json:"end_location"`
+  Start_address         string         `json:"start_address"`
+  Start_location        Lat_long        `json:"start_location"`
+  Steps                 []Step         `json:"steps"`
+  Via_waypoint          []Via_waypoint  `json:"via_waypoint"`
 }
 
 type Info struct {
-  Text float64 `json:"text"`
+  Text string `json:"text"`
   Val  float64 `json:"value"`
 }
 
 type Step struct {
-  Distance         Info           `json:"distance"`
-  Duration         Info           `json:"duration"`
+  Distance          Info           `json:"distance"`
+  Duration          Info           `json:"duration"`
   End_eocation      Lat_long        `json:"end_location"`
   Html_instructions string         `json:"html_instructions"`
-  Maneuver         string         `json:"maneuver"`
-  Polyline         Point          `json:"polyline"`
+  Maneuver          string         `json:"maneuver"`
+  Polyline          Point          `json:"polyline"`
   Start_location    Lat_long        `json:"start_location"`
   Travel_mode       string         `json:"travel_mode"`
 }
 
 type Via_waypoint struct {
-  Location          Lat_long  `json:"location"`
+  Location           Lat_long  `json:"location"`
   Step_index         int      `json:"step_index"`
   Step_interpolation float64  `json:"step_interpolation"`
 }
