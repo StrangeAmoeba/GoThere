@@ -56,4 +56,7 @@ func Get_best_path(matrix [][]float64, destinations []int) {
 
 	destinations_matrix := create_destination_matrix(matrix, destinations)
 	destinations_matrix = destinations_matrix
+	// mst := kruskals(destinations_matrix)
+	// best_path := get_best_path_from_mst
+	//return path
 }
