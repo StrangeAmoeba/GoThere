@@ -7,7 +7,10 @@ import (
 	// "fmt"
 )
 
-
+// Merge_Sort, a parallel version of mergesort which brings down running time to O(n).
+//
+//   Input: s i.e. data_types.Graph_edge
+//   Output: s, sorted i.e. data_types.Graph_edge
 func Merge_Sort(s []data_types.Graph_edge) []data_types.Graph_edge {
 	
 	// nearest power of 2 to len(s)

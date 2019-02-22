@@ -5,7 +5,7 @@ import (
 	dt "concurrency-9/data_types"
 )
 
-func TestReverse(t *testing.T) {
+func Test_sort(t *testing.T) {
 	cases := []struct {
 		in, want [] dt.Graph_edge
 	}{

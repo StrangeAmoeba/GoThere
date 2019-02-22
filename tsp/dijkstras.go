@@ -11,9 +11,10 @@ const MaxFloat = math.MaxFloat64
 // FindMinVertex is a helper function for the SingleSourceDijkstras function.
 // It checks all the vertices in the graph and returns the index of the vertex
 // with minimum weight.
-// Inputs: Weights of individual vertices, as a []float64 slice
-//         A []bool slice, that is used to track the visited vertices
-// Output: A single integer representing the node of the graph with the least weight
+//
+//  Inputs: weights of individual vertices i.e. []float64,
+//          tracker, that is used to track the visited vertices i.e. []bool
+//  Output:  minIndex, the node of the graph with the least weight i.e. int
 func FindMinVertex(weights []float64, tracker []bool) int {
 	// TODO: Improve Concurrency of the function
 

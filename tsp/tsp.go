@@ -8,7 +8,10 @@ import (
 const number_of_nodes = 50
 var float_max = math.MaxFloat64
 
-func Getmat() [][] float64{
+//Getmat returns a dummy matrix of dimension mentioned in the file tsp.go
+//
+//  Output: matrix, dummy matrix, i.e. [][]float64
+func Get_mat() [][] float64{
 	// currently just dummy matrix
 	var matrix [][] float64
 	for i:=0;i<number_of_nodes;i++ {
@@ -22,40 +25,53 @@ func Getmat() [][] float64{
 	return matrix
 }
 
-func Get_MST(matrix [][]float64) []dt.Graph_edge {
+// Get_MST is a wrapper around destinations_matrix() and kruskals()
+// it calls these two and returns the required matrix for tsp computation
+// 
+//  Input: matrix i.e. [][]float64, destinations i.e. int
+//  Output: mst i.e. minimum spanning tree of the subgraph, i.e. []data_types.Graph_edge
+func Get_MST(matrix [][]float64, destinations []int) []dt.Graph_edge {
 
-	// var a []int  = []int{4,5,6,7,8}
-	// a = append(a[:2], a[3:]...)
-	// fmt.Printf("%v",a)
-	// fmt.Printf("%v", create_destination_matrix(matrix, []int{3,4,7,25,48}))
-	return kruskals(create_destination_matrix(matrix, []int{3,4,7,25,48}))
-	// fmt.Printf("%v", Merge_Sort(s))
+	destinations_matrix := Create_destination_matrix(matrix, destinations)
+	mst := Kruskals(destinations_matrix)
+	return mst
 }
 
-func create_destination_matrix(matrix[][] float64, destinations []int) [][]float64{
+
+// Create_destination_matrix takes in the list of destinations and creates a graph
+// in the form of an adjacency matrix with just these nodes and and edges containing them
+// from the parent graph, there is no loss of data in this as whenever it is called,it is after
+// an algorithm (say, dijkstra's) which incapsulates any important data from other nodes
+//
+//  Input: matrix, the parent graph i.e. [][]float64, destinations i.e. []int
+//
+//  Output: destinations i.e. [][]float64
+func Create_destination_matrix(matrix[][] float64, destinations []int) [][]float64{
 	var temp, temp1 [][]float64
-	// fmt.Printf("%d", len(destinations))
 	for _, i := range destinations {
 		temp = append(temp, matrix[i])
 	}
 	for i:=0;i<len(destinations);i++ {
-		// fmt.Printf("%d", i)
 		var row []float64
-		// temp = append(temp, row)
 		for _,j := range destinations {
-			// fmt.Printf("%d", j)
 			row = append(row, temp[i][j])
 		}
 		temp1 = append(temp1, row)
 	}
-	// fmt.Printf("%v", temp)
 	return temp1
 }
 
-func Get_best_path(matrix [][]float64, destinations []int) {
 
-	destinations_matrix := create_destination_matrix(matrix, destinations)
-	destinations_matrix = destinations_matrix
+// Get_best_path, takes in a graph, a subset of nodes of the same graph and gives the ideal
+// path to visit all of them in the least expensive way.
+//
+//  Input: matrix, the full graph i.e. [][]float64, destinations, subset of nodes i.e. []int
+//  Output: best_path i.e. []int
+func Get_best_path(matrix [][]float64, destinations []int) []dt.Graph_edge {
+
+	mst := Get_MST(matrix, destinations)
+	return mst
+	// mst = mst
 	// mst := kruskals(destinations_matrix)
 	// best_path := get_best_path_from_mst
 	//return path

@@ -11,17 +11,22 @@ import (
 
 var number_of_vertices int
 
+// Get_adjacency_list converts a graph in the form of an adjacency matrix to
+// an adjacency list.
+//
+//   Input: matrix i.e. [][]float64
+//   Output: al i.e. [][]data_types.Graph_edge
 func Get_adjacency_list (matrix [][]float64) [][]dt.Graph_edge {
-	var s [][] dt.Graph_edge
+	var al [][] dt.Graph_edge
 	for i:=0;i<len(matrix);i++ {
 		temp := make([]dt.Graph_edge, number_of_vertices)
 		for j:=0;j<len(matrix[i]);j++ {
 			temp[j] = dt.Graph_edge{i,j,matrix[i][j]}
 		}
-		s = append(s, temp)
+		al = append(al, temp)
 	}
-	// fmt.Printf("%v", s[0])
-	return s
+	// fmt.Printf("%v", al[0])
+	return al
 }
 
 type subset struct {
@@ -36,6 +41,12 @@ func find(subsets [] subset, i int) int {
     return subsets[i].parent
 }
 
+// Union computes the union of two disjoint sets, this particular implementation
+// uses parallelisation of any adjacent calls to improve speed.
+// 
+//   Input: subsets, the list of all subsets, i.e. []subset
+//   		 x, y,representative elements of subsets, i.e. int.
+//   Output: No Output, union stored in subsets.
 func Union(subsets []subset, x int, y int) {
 
 	// concurrently find the roots of both the 
@@ -62,7 +73,14 @@ func Union(subsets []subset, x int, y int) {
         subsets[xroot].rank++
     } 
 }
-func kruskals (matrix [][]float64) []dt.Graph_edge {
+
+// Kruskals computes the mst of a given graph represented in the form of a an adjacency matrix
+// , internally it is converted to an adjacency list. This is a parallelised form of Kruskal's algorithm,
+// where any adjacent calls are made parallely.
+//
+//  Input: matrix i.e. [][]float64.
+//  Output: results i.e. data_types.Graph_edge.
+func Kruskals (matrix [][]float64) []dt.Graph_edge {
 	number_of_vertices = len(matrix)
 	V := number_of_vertices
 	var results [] dt.Graph_edge
