@@ -88,8 +88,8 @@ func Kruskals (matrix [][]float64) []dt.Graph_edge {
 	e := 0 // number of edges in results
 	var edges []dt.Graph_edge
 	for i:=0;i<len(s);i++ {
-		for j:=0;j<len(s[i]);j++ {
-			edges = append(edges, s[i][j])
+		for j:=i+1;j<len(s[i]);j++ {
+			edges = append(edges, dt.Graph_edge{i,j,(s[i][j].Weight + s[j][i].Weight)/2.0})
 		}
 	}
 	edges = Merge_Sort(edges)

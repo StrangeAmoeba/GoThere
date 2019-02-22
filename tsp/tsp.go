@@ -68,7 +68,8 @@ func Create_destination_matrix(matrix[][] float64, destinations []int) [][]float
 //  Input: matrix, the full graph i.e. [][]float64, destinations, subset of nodes i.e. []int
 //  Output: best_path i.e. []int
 func Get_best_path(matrix [][]float64, destinations []int) []dt.Graph_edge {
-
+	// fmt.Printf("%v", destinations)
+	matrix = dijkstras(matrix)
 	mst := Get_MST(matrix, destinations)
 	return mst
 	// mst = mst
