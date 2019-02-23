@@ -1,19 +1,28 @@
 package server
 
+import (
+  dt "concurrency-9/data_types"
+  "encoding/json"
+  "fmt"
+  "io/ioutil"
+  "os"
+)
+
 // dist_traffic uses the google_directions_api and with the help of
 // defined struct to parse json, we obtain distance and traffic weights
 // calls assign_weight() to normalize the two parameters into one weight.
 // Input: loc1[ origin of the route ] i.e. string, loc2[ origin of the route ] i.e. string
 // Output: weight[ weight of edge between the two locations ] i.e. float64
 func dist_traffic(loc1, loc2 string) float64 {
-  var url = constructURL(Locations()[v_i], Locations()[v_j]) // external_api
+  var url = constructURL(Locations()[loc1], Locations()[loc2]) // external_api
+  fmt.Println(url)
   var content = getResponse(url)
   var directions dt.Dir_info
   json.Unmarshal([]byte(content), &directions)
-  fmt.Println("debug3", directions.Routes[0].Legs[0].Distance.Val)
   var dist = directions.Routes[0].Legs[0].Distance.Val
   var traff = directions.Routes[0].Legs[0].Duration_traffic.Val
-  var weight = assign_weight(dist, traff) // distance_matrix
+  var weight = 5.0
+  assign_weight(dist, traff) // distance_matrix
   return weight
   // getRespFile() - for debugging only
 }

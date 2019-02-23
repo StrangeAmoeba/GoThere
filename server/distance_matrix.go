@@ -1,13 +1,9 @@
 package server
 
 import (
-  dt "concurrency-9/data_types"
-  "encoding/json"
   "fmt"
-  "io/ioutil"
-  "os"
   "sort"
-  "strings"
+  // "strings"
 )
 
 var Dist_matrix = [50][50]float64{}
@@ -23,20 +19,21 @@ func Create_dist_matrix() {
     keys = append(keys, k_i)
   }
   sort.Strings(keys)
-  for _, v_i := range keys {
-    for _, v_j := range keys {
-      if strings.Compare(v_i, v_j) != 1 {
-        go dist_traffic(v_i, v_j) // json_parse_dist_traff - assign values to the matrix
-      }
-    }
-  }
+  dist_traffic(keys[0], keys[1])
+  // for _, v_i := range keys {
+  //   for _, v_j := range keys {
+  //     if strings.Compare(v_i, v_j) != 1 {
+  //       go dist_traffic(v_i, v_j) // json_parse_dist_traff - assign values to the matrix
+  //     }
+  //   }
+  // }
 }
 
 // assign_weight is responsible to normalize the two weights - distance and traffic
 // into one weight.
-// Input: dist[ weight representing distance of route ] i.e. int,
-// traff[ weight representing traffic in route ] i.e. int
+// Input: dist[ weight representing distance of route ] i.e. float64,
+// traff[ weight representing traffic in route ] i.e. float64
 // Output: weight[ weight of edge between the two locations ] i.e. float64
-func assign_weight(dist, traff int) float64 {
-
+func assign_weight(dist, traff float64) {
+  fmt.Println(dist, traff)
 }
