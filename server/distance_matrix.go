@@ -12,7 +12,7 @@ import (
   "time"
 )
 
-var Dist_matrix = [50][50]float64{}
+var Dist_matrix = [35][35]float64{}
 var avg_speed = 15.5 // mps
 var updated_matrix = false
 
@@ -82,8 +82,8 @@ func check_matrix_file() {
   }
   // updated, so read matrix from file
   updated_matrix = true
-  for i := 0; i < 50; i++ {
-    for j := 0; j < 50; j++ {
+  for i := 0; i < 35; i++ {
+    for j := 0; j < 35; j++ {
       var data = scanner.Text()
       if val, err := strconv.ParseFloat(data, 64); err == nil {
         Dist_matrix[i][j] = val
@@ -115,8 +115,8 @@ func write_matrix_file() {
     file.Close()
     return
   }
-  for i := 0; i < 50; i++ {
-    for j := 0; j < 50; j++ {
+  for i := 0; i < 35; i++ {
+    for j := 0; j < 35; j++ {
       var data = Dist_matrix[i][j]
       s64 := strconv.FormatFloat(data, 'f', -1, 64)
       fmt.Fprintln(file, s64)
