@@ -6,24 +6,27 @@ import (
   "fmt"
   "io/ioutil"
   "os"
+  "strings"
 )
 
 // dist_traffic uses the google_directions_api and with the help of
 // defined struct to parse json, we obtain distance and traffic weights
 // calls assign_weight() to normalize the two parameters into one weight.
-// Input: loc1[ origin of the route ] i.e. string, loc2[ origin of the route ] i.e. string
+// Input: key1[ to assign the weight to the Dist_matrix ] i.e. int, loc1[ origin of the route ] i.e. string
+// key1[ to assign the weight to the Dist_matrix ] i.e. int, loc2[ origin of the route ] i.e. string
 // Output: weight[ weight of edge between the two locations ] i.e. float64
-func dist_traffic(loc1, loc2 string) float64 {
+func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
   var url = constructURL(Locations()[loc1], Locations()[loc2]) // external_api
-  fmt.Println(url)
   var content = getResponse(url)
   var directions dt.Dir_info
   json.Unmarshal([]byte(content), &directions)
+  if strings.Compare(directions.Status, "OVER_QUERY_LIMIT") == 0 {
+    fmt.Println("DAILY LIMIT EXCEEDED ERROR")
+    os.Exit(3)
+  }
   var dist = directions.Routes[0].Legs[0].Distance.Val
   var traff = directions.Routes[0].Legs[0].Duration_traffic.Val
-  var weight = 5.0
-  assign_weight(dist, traff) // distance_matrix
-  return weight
+  Dist_matrix[key1][key2] = assign_weight(dist, traff) // distance_matrix
   // getRespFile() - for debugging only
 }
 
