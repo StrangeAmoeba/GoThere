@@ -6,7 +6,8 @@ import (
   "fmt"
   "io/ioutil"
   "os"
-  "strings"
+  // "strings"
+  "math/rand"
 )
 
 // dist_traffic uses the google_directions_api and with the help of
@@ -23,10 +24,13 @@ func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
   if strings.Compare(directions.Status, "OVER_QUERY_LIMIT") == 0 {
     fmt.Println("DAILY LIMIT EXCEEDED ERROR")
     os.Exit(3)
+  } else if strings.Compare(directions.Status, "OK") != 0 {
+    fmt.Println("ERROR - GOOGLE API REJECTED QUERY")
+    os.Exit(3)
   }
   var dist = directions.Routes[0].Legs[0].Distance.Val
   var traff = directions.Routes[0].Legs[0].Duration_traffic.Val
-  Dist_matrix[key1][key2] = assign_weight(dist, traff) // distance_matrix
+  Dist_matrix[key1][key2] = assign_weight(dist[0], traff[0]) // distance_matrix
   // getRespFile() - for debugging only
 }
 
@@ -49,4 +53,17 @@ func getRespFile() {
 
   var directions dt.Dir_info
   json.Unmarshal([]byte(byteValue), &directions)
+}
+
+// randFloats is a helper function
+// useful for debugging. Generate an array of random float64
+// Input: min[ minimum bound ] i.e. float64, max[ maximum bound ] i.e. float64
+// n[ size of random numbers array ] i.e. int
+// Output: res[ an array of random numbers ] i.e. []float64
+func randFloats(min, max float64, n int) []float64 {
+  res := make([]float64, n)
+  for i := range res {
+    res[i] = min + rand.Float64()*(max-min)
+  }
+  return res
 }

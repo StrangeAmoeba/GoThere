@@ -23,7 +23,6 @@ func Create_dist_matrix() {
     keys = append(keys, k_i)
   }
   sort.Strings(keys)
-  fmt.Println(len(keys))
   for k_i, v_i := range keys {
     wg.Add(1)
     go func(k_i int, v_i string, keys []string) {
@@ -38,7 +37,6 @@ func Create_dist_matrix() {
   }
   // Wait for all go routines to complete
   wg.Wait()
-  fmt.Println("final", Dist_matrix)
 }
 
 // assign_weight is responsible to normalize the two weights - distance and traffic
