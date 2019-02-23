@@ -17,7 +17,7 @@ func Get_mat() [][] float64{
 	for i:=0;i<number_of_nodes;i++ {
 		temp := make([]float64, number_of_nodes)
 		for j:=0;j<number_of_nodes;j++ {
-			temp[j] = float64((j-i)*(j-i))
+			temp[j] = float64(1.0/(math.Abs(float64(j-i))))
 		}
 		matrix = append(matrix,temp)
 	}
@@ -67,13 +67,15 @@ func Create_destination_matrix(matrix[][] float64, destinations []int) [][]float
 //
 //  Input: matrix, the full graph i.e. [][]float64, destinations, subset of nodes i.e. []int
 //  Output: best_path i.e. []int
-func Get_best_path(matrix [][]float64, destinations []int) []dt.Graph_edge {
+func Get_best_path(matrix [][]float64, destinations []int) []int {
 	// fmt.Printf("%v", destinations)
 	matrix = dijkstras(matrix)
 	mst := Get_MST(matrix, destinations)
-	return mst
-	// mst = mst
-	// mst := kruskals(destinations_matrix)
-	// best_path := get_best_path_from_mst
-	//return path
+	// make_tree_from_edges(mst, len(destinations))
+	pw := pre_order_walk(mst)
+	var best_path []int
+	for i:=0;i<len(pw);i++ {
+		best_path = append(best_path, destinations[pw[i]])
+	}
+	return best_path
 }
