@@ -1,13 +1,18 @@
 package main
 
 import (
-  "log"
+  "concurrency-9/server"
   "fmt"
+  "log"
   "net/http"
   "os"
-  "concurrency-9/server"
 )
 
+// determineListenAddress figures out what address to listen on for traffic.
+// It uses the $PORT environment variable only to determine this.
+// If $PORT isn’t set an error is returned instead.
+// Input: none
+// Output: port[ $PORT env variable ] i.e. string, err[ $PORT not set ] i.e. error
 func determineListenAddress() (string, error) {
   port := os.Getenv("PORT")
   if port == "" {
@@ -22,7 +27,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 func main() {
   // testing - harsha
-  server.Dist_matrix()
+  server.Create_dist_matrix()
 
   // web app
   addr, err := determineListenAddress()

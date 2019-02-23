@@ -1,36 +1,42 @@
 package server
 
 import (
-  "fmt"
-  "os"
-  "encoding/json"
-  "io/ioutil"
   dt "concurrency-9/data_types"
-  )
+  "encoding/json"
+  "fmt"
+  "io/ioutil"
+  "os"
+  "sort"
+  "strings"
+)
 
-func Dist_matrix() {
-  var url = constructURL(Locations()["sainagar"], Locations()["bhel"]) // external_api
-  fmt.Println(url)
-  var content = getResponse(url)
-  var directions dt.Dir_info
-  json.Unmarshal([]byte(content), &directions)
-  fmt.Println("debug3", directions.Routes[0].Legs[0].Distance.Val)
-  // getRespFile() - for debugging only
+var Dist_matrix = [50][50]float64{}
+
+// Create_dist_matrix is responsible for assigning weights between each location
+// which is important for the application of dijkstas and kruskals algorithm to find the shortest
+// route. The matrix created can later be accessed using Dist_matrix which is of the type [][]float64
+// Input: None
+// Output: None
+func Create_dist_matrix() {
+  keys := make([]string, 0)
+  for k_i := range Locations() {
+    keys = append(keys, k_i)
+  }
+  sort.Strings(keys)
+  for _, v_i := range keys {
+    for _, v_j := range keys {
+      if strings.Compare(v_i, v_j) != 1 {
+        go dist_traffic(v_i, v_j) // json_parse_dist_traff - assign values to the matrix
+      }
+    }
+  }
 }
 
-// helper function - useful for debugging. Can access json files.
-func getRespFile() {
-  jsonFile, err := os.Open("server/example-route.json")
-  // if we os.Open returns an error then handle it
-  if err != nil {
-    fmt.Println(err)
-  }
-  fmt.Println("Successfully Opened json file")
-  // defer the closing of our jsonFile so that we can parse it later on
-  defer jsonFile.Close()
+// assign_weight is responsible to normalize the two weights - distance and traffic
+// into one weight.
+// Input: dist[ weight representing distance of route ] i.e. int,
+// traff[ weight representing traffic in route ] i.e. int
+// Output: weight[ weight of edge between the two locations ] i.e. float64
+func assign_weight(dist, traff int) float64 {
 
-  byteValue, _ := ioutil.ReadAll(jsonFile)
-
-  var directions dt.Dir_info
-  json.Unmarshal([]byte(byteValue), &directions)
 }
