@@ -5,9 +5,9 @@ import (
   "encoding/json"
   "fmt"
   "io/ioutil"
-  "os"
-  // "strings"
   "math/rand"
+  "os"
+  "strings"
 )
 
 // dist_traffic uses the google_directions_api and with the help of
@@ -30,7 +30,7 @@ func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
   }
   var dist = directions.Routes[0].Legs[0].Distance.Val
   var traff = directions.Routes[0].Legs[0].Duration_traffic.Val
-  Dist_matrix[key1][key2] = assign_weight(dist[0], traff[0]) // distance_matrix
+  Dist_matrix[key1][key2] = assign_weight(dist, traff) // distance_matrix
   // getRespFile() - for debugging only
 }
 
