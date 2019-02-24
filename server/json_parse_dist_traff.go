@@ -23,6 +23,7 @@ func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
   json.Unmarshal([]byte(content), &directions)
   if strings.Compare(directions.Status, "OVER_QUERY_LIMIT") == 0 {
     fmt.Println("DAILY LIMIT EXCEEDED ERROR")
+    fmt.Println(Dist_matrix)
     os.Exit(3)
   } else if strings.Compare(directions.Status, "OK") != 0 {
     fmt.Println("ERROR - GOOGLE API REJECTED QUERY")

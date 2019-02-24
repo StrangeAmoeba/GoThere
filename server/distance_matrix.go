@@ -42,6 +42,12 @@ func Create_dist_matrix() {
         if k_i != k_j {
           dist_traffic(k_i, v_i, k_j, v_j) // json_parse_dist_traff - assign values to the matrix
         }
+        if k_j == 15 {
+          time.Sleep(1000 * time.Millisecond)
+        }
+        if k_j == 25 {
+          time.Sleep(1000 * time.Millisecond)
+        }
       }
     }(k_i, v_i, keys)
   }
@@ -58,7 +64,7 @@ func Create_dist_matrix() {
 func assign_weight(dist, traff float64) float64 {
   var weight = dist
   weight += (dist * avg_speed)
-  return weight
+  return weight / 1000
 }
 
 // check_matrix_file is responsible to check if the current date stamp on file
@@ -73,11 +79,25 @@ func check_matrix_file() {
     log.Fatal(err)
   }
   defer file.Close()
+  // PST date to be verified
+  IST, err := time.LoadLocation("Asia/Kolkata")
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+  PST, err := time.LoadLocation("America/Los_Angeles")
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  const longForm = "2006-01-02 15:04:05"
   currentTime := time.Now()
-  var date = currentTime.Format("01-02-2006")
+  t, err := time.ParseInLocation(longForm, currentTime.Format("2006-01-02 15:04:05"), IST)
+  result := strings.Split(t.In(PST).String(), " ")
   scanner := bufio.NewScanner(file)
   scanner.Scan()
-  if strings.Compare(scanner.Text(), date) != 0 { // not-updated
+  if strings.Compare(scanner.Text(), result[0]) != 0 { // not-updated
     return
   }
   // updated, so read matrix from file
@@ -107,9 +127,23 @@ func write_matrix_file() {
     file.Close()
     os.Exit(3)
   }
+  // PST date to be entered
+  IST, err := time.LoadLocation("Asia/Kolkata")
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+  PST, err := time.LoadLocation("America/Los_Angeles")
+  if err != nil {
+    fmt.Println(err)
+    return
+  }
+
+  const longForm = "2006-01-02 15:04:05"
   currentTime := time.Now()
-  var date = currentTime.Format("01-02-2006")
-  fmt.Fprintln(file, date)
+  t, err := time.ParseInLocation(longForm, currentTime.Format("2006-01-02 15:04:05"), IST)
+  result := strings.Split(t.In(PST).String(), " ")
+  fmt.Fprintln(file, result[0])
   if err != nil {
     fmt.Println(err)
     file.Close()
