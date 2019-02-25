@@ -1,7 +1,7 @@
 package main
 
 import (
-  "concurrency-9/server"
+  // "concurrency-9/server"
   "fmt"
   "log"
   "net/http"
@@ -22,12 +22,32 @@ func determineListenAddress() (string, error) {
 }
 
 func hello(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprintln(w, "Hello World!!")
+  if r.URL.Path != "/" {
+    http.Error(w, "404 not found.", http.StatusNotFound)
+    return
+  }
+
+  switch r.Method {
+  case "GET":
+    http.ServeFile(w, r, "form.html")
+  case "POST":
+    if err := r.ParseForm(); err != nil {
+      fmt.Fprintf(w, "ParseForm() err: %v", err)
+      return
+    }
+    fmt.Fprintf(w, "%v\n", r.PostForm["locations"])
+    name := r.FormValue("name")
+    address := r.FormValue("noou")
+    fmt.Fprintf(w, "Name = %s\n", name)
+    fmt.Fprintf(w, "noou = %s\n", address)
+  default:
+    fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
+  }
 }
 
 func main() {
   // testing - harsha
-  server.Create_dist_matrix()
+  // server.Create_dist_matrix()
 
   // web app
   addr, err := determineListenAddress()
