@@ -1,2 +1,6 @@
 example-route.json
 concurrency-9
+dump
+.gitignore
+dist_matrix.log
+dist_matrix.log.old

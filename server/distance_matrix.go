@@ -24,7 +24,7 @@ var updated_matrix = false
 // Input: None
 // Output: None
 func Create_dist_matrix() {
-  check_matrix_file()
+  check_matrix_file("new")
   if updated_matrix == true {
     return
   }
@@ -39,6 +39,9 @@ func Create_dist_matrix() {
     go func(k_i int, v_i string, keys []string) {
       defer wg.Done() // Decrement the counter when the goroutine completes.
       for k_j, v_j := range keys {
+        if updated_matrix == true {
+          break
+        }
         if k_i != k_j {
           dist_traffic(k_i, v_i, k_j, v_j) // json_parse_dist_traff - assign values to the matrix
         }
@@ -53,6 +56,12 @@ func Create_dist_matrix() {
   }
   // Wait for all go routines to complete
   wg.Wait()
+  // fall back to old log incase google api is down or resulted in an error
+  // fmt.Println(Dist_matrix) // debugging
+  if updated_matrix == true {
+    check_matrix_file("old")
+    return
+  }
   write_matrix_file()
 }
 
@@ -71,10 +80,16 @@ func assign_weight(dist, traff float64) float64 {
 // is different from current date.(Pacific Time Zone)
 // If the current date stamp matches with current date, then update Dist_matrix
 // else update updated_matrix accordingly
-// Input: None
+// Input: f_type [ log to be checked - old or new ] i.e. string
 // Output: None
-func check_matrix_file() {
-  file, err := os.Open("dist_matrix.log")
+func check_matrix_file(f_type string) {
+  var file *os.File
+  var err error
+  if strings.Compare(f_type, "new") == 0 {
+    file, err = os.Open("dist_matrix.log")
+  } else {
+    file, err = os.Open("dist_matrix.log.old")
+  }
   if err != nil {
     log.Fatal(err)
   }
@@ -104,9 +119,13 @@ func check_matrix_file() {
   updated_matrix = true
   for i := 0; i < 35; i++ {
     for j := 0; j < 35; j++ {
+      scanner.Scan()
       var data = scanner.Text()
       if val, err := strconv.ParseFloat(data, 64); err == nil {
         Dist_matrix[i][j] = val
+      } else {
+        fmt.Println(err)
+        os.Exit(3)
       }
     }
   }

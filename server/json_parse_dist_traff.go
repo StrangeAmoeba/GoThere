@@ -22,15 +22,18 @@ func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
   var directions dt.Dir_info
   json.Unmarshal([]byte(content), &directions)
   if strings.Compare(directions.Status, "OVER_QUERY_LIMIT") == 0 {
-    fmt.Println("DAILY LIMIT EXCEEDED ERROR")
-    fmt.Println(Dist_matrix)
-    os.Exit(3)
+    fmt.Println("OVER QUERY LIMIT")
+    updated_matrix = true
+    return
   } else if strings.Compare(directions.Status, "OK") != 0 {
     fmt.Println("ERROR - GOOGLE API REJECTED QUERY")
-    os.Exit(3)
+    updated_matrix = true
+    return
   }
   var dist = directions.Routes[0].Legs[0].Distance.Val
   var traff = directions.Routes[0].Legs[0].Duration_traffic.Val
+  // var dist = randFloats(1000.0, 10000.0, 1)
+  // var traff = randFloats(1000.0, 6000.0, 1)
   Dist_matrix[key1][key2] = assign_weight(dist, traff) // distance_matrix
   // getRespFile() - for debugging only
 }

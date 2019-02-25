@@ -1,7 +1,7 @@
 package main
 
 import (
-  // "concurrency-9/server"
+  "concurrency-9/server"
   "fmt"
   "log"
   "net/http"
@@ -47,7 +47,7 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
 
 func main() {
   // testing - harsha
-  // server.Create_dist_matrix()
+  server.Create_dist_matrix()
 
   // web app
   addr, err := determineListenAddress()
