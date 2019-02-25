@@ -21,21 +21,21 @@ func determineListenAddress() (string, error) {
   return ":" + port, nil
 }
 
-func hello(w http.ResponseWriter, r *http.Request) {
-  if r.URL.Path != "/" {
+func serveForm(w http.ResponseWriter, r *http.Request) {
+  if r.URL.Path != "/go" {
     http.Error(w, "404 not found.", http.StatusNotFound)
     return
   }
 
   switch r.Method {
   case "GET":
-    http.ServeFile(w, r, "form.html")
+    http.ServeFile(w, r, "public/form.html")
   case "POST":
     if err := r.ParseForm(); err != nil {
       fmt.Fprintf(w, "ParseForm() err: %v", err)
       return
     }
-    fmt.Fprintf(w, "%v\n", r.PostForm["locations"])
+    fmt.Fprintf(w, "%v %v\n", r.PostForm["locations"], len(r.PostForm["locations"]))
     name := r.FormValue("name")
     address := r.FormValue("noou")
     fmt.Fprintf(w, "Name = %s\n", name)
@@ -54,7 +54,8 @@ func main() {
   if err != nil {
     log.Fatal(err)
   }
-  http.HandleFunc("/", hello)
+  http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
+  http.HandleFunc("/", serveForm)
   log.Printf("Listening on %s...\n", addr)
   if err := http.ListenAndServe(addr, nil); err != nil {
     panic(err)

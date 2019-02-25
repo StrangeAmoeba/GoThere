@@ -14,12 +14,13 @@
     <h1>Enter the locations to be visited!</h1>
     <form method="POST" action="/">
       <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="locations">Place</label>
-          <select id="locations" name="locations" class="form-control">
+        <input type="hidden" name="count" value="1" />
+        <div id="loc" class="form-group col-md-4">
+          <label for="loc1">Place</label>
+          <select id="loc1" name="loc1" class="form-control">
             <option selected>Choose...</option>
             <option>Ahmedguda</option>
-            <option>Allwyn Colony</option>
+            <option>Allwyn-Colony</option>
             <option>Ameenpur</option>
             <option>Ameerpet</option>
             <option>Bachupally</option>
@@ -27,15 +28,15 @@
             <option>Borabanda</option>
             <option>Bowenpally</option>
             <option>Bhel</option>
-            <option>Brundavan Colony</option>
+            <option>Brundavan-Colony</option>
             <option>Chandanagar</option>
             <option>Fatehnagar</option>
             <option>Gachibowli</option>
-            <option>Gautam Nagar</option>
+            <option>Gautam-Nagar</option>
             <option>Hafeezpet</option>
-            <option>Hitec City</option>
+            <option>Hitec-City</option>
             <option>Hydernagar</option>
-            <option>Jubilee Hills</option>
+            <option>Jubilee-Hills</option>
             <option>Kandi</option>
             <option>Kompally</option>
             <option>Kondapur</option>
@@ -46,25 +47,21 @@
             <option>Nallagandla</option>
             <option>Nizampet</option>
             <option>Patancheru</option>
-            <option>Patel Nagar</option>
-            <option>Sai Nagar</option>
-            <option>Sanath Nagar</option>
+            <option>Patel-Nagar</option>
+            <option>Sai-Nagar</option>
+            <option>Sanath-Nagar</option>
             <option>Sangareddy</option>
             <option>Shamshiguda</option>
-            <option>Siva Nagar</option>
+            <option>Siva-Nagar</option>
             <option>Yeddumailaram</option>
           </select>
+          <button id="add" class="btn add-more" type="button">+</button>
         </div>
       </div>
       <button type="submit" class="btn btn-primary">Go!</button>
     </form>
-<!--     <form method="POST" action="/">
-      <label>Name</label><input name="name" type="text" value="" />
-      <label>noou</label><input name="noou" type="text" value="" />
-      <input type="submit" value="submit" />
-    </form> -->
-    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="public/js/fields.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
