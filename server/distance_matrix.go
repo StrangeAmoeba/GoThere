@@ -45,19 +45,14 @@ func Create_dist_matrix() {
         if k_i != k_j {
           dist_traffic(k_i, v_i, k_j, v_j) // json_parse_dist_traff - assign values to the matrix
         }
-        if k_j == 15 {
-          time.Sleep(1000 * time.Millisecond)
-        }
-        if k_j == 25 {
-          time.Sleep(1000 * time.Millisecond)
-        }
+        time.Sleep(100 * time.Millisecond)
       }
     }(k_i, v_i, keys)
   }
   // Wait for all go routines to complete
   wg.Wait()
+  // fmt.Println("check", Dist_matrix) // debugging
   // fall back to old log incase google api is down or resulted in an error
-  // fmt.Println(Dist_matrix) // debugging
   if updated_matrix == true {
     check_matrix_file("old")
     return
