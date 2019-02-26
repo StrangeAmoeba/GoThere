@@ -24,12 +24,12 @@ var Locations = func() map[string]dt.Vertex {
       17.549203, 78.385600, 4},
     "begumpet": dt.Vertex{
       17.444339, 78.469836, 5},
-    "borabanda": dt.Vertex{
-      17.457145, 78.412862, 6},
-    "bowenpally": dt.Vertex{
-      17.473768, 78.487278, 7},
     "bhel": dt.Vertex{
-      17.491567, 78.292227, 8},
+      17.491567, 78.292227, 6},
+    "borabanda": dt.Vertex{
+      17.457145, 78.412862, 7},
+    "bowenpally": dt.Vertex{
+      17.473768, 78.487278, 8},
     "brundavancolony": dt.Vertex{
       17.527584, 78.492173, 9},
     "chandanagar": dt.Vertex{

@@ -2,12 +2,12 @@ package main
 
 import (
   "concurrency-9/server"
-  // "concurrency-9/tsp"
+  "concurrency-9/tsp"
   "fmt"
   "log"
   "net/http"
   "os"
-  // "sort"
+  "sort"
   "strings"
 )
 
@@ -18,30 +18,39 @@ import (
 // Output: indices [ array of user queries locations in indices ] i.e. []int
 func get_indices(loc map[string][]string) []int {
   var count = len(loc)
+  count = count / 2 // we dont need the key value of the field. only its value suffices
+
   var indices = make([]int, 1, 1)
-  var loc_key_raw = loc["loc1"][0]
+  var loc_key_raw = loc["form_data[0][value]"][0]
   loc_key_raw = strings.ToLower(loc_key_raw)
   result := strings.Split(loc_key_raw, " ")
   var length = len(result)
+
   var loc_key strings.Builder
   for i := 0; i < length; i++ {
     fmt.Fprintf(&loc_key, result[i])
   }
+
   indices[0] = server.Locations()[loc_key.String()].Index
+
   for i := 2; i <= count; i++ {
     var key strings.Builder
-    fmt.Fprintf(&key, "loc%d", i)
+    fmt.Fprintf(&key, "form_data[%d][value]", i-1)
     loc_key_raw = loc[key.String()][0]
     loc_key_raw = strings.ToLower(loc_key_raw)
+
     result = strings.Split(loc_key_raw, " ")
     length = len(result)
     loc_key.Reset()
+
     for i := 0; i < length; i++ {
       fmt.Fprintf(&loc_key, result[i])
     }
+
     var loc_ind = server.Locations()[loc_key.String()].Index
     indices = append(indices, loc_ind)
   }
+
   return indices
 }
 
@@ -78,20 +87,25 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
       fmt.Fprintf(w, "ParseForm() err: %v", err)
       return
     }
-    fmt.Println(r.Form)
-    // var indices = get_indices(r.Form)
-    // sort.Ints(indices) // sort the locations indices in increasing order
-    // var dist_slice_matrix = server.MatToDynMat()
-    // best_path := tsp.Get_best_path(dist_slice_matrix, indices)
+    // fmt.Println(r.Form, len(r.Form), r.Form["form_data[0][name]"])
+    var indices = get_indices(r.Form)
+    sort.Ints(indices) // sort the locations indices in increasing order
+    var dist_slice_matrix = server.MatToDynMat()
+    best_path := tsp.Get_best_path(dist_slice_matrix, indices)
 
-    // for i := 0; i < len(best_path); i++ {
-    //   for j := range server.Locations() {
-    //     if best_path[i] == server.Locations()[j].Index {
-    //       fmt.Println(best_path[i], j)
-    //       break
-    //     }
-    //   }
-    // }
+    // keys to get the locations from given index
+    keys := make([]string, 0)
+    for k := range server.Locations() {
+      keys = append(keys, k)
+    }
+    // give ordering for optimizing search
+    sort.Strings(keys)
+
+    // to output the best path
+    var length = len(best_path)
+    for i := 0; i < length; i++ {
+      fmt.Println(keys[best_path[i]])
+    }
   default:
     fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
   }
