@@ -25,17 +25,27 @@ var updated_matrix = false
 // Output: None
 func Create_dist_matrix() {
   check_matrix_file("new")
+
+  // if matrix has been updated this day, return
   if updated_matrix == true {
     return
   }
+
   var wg sync.WaitGroup
+
   keys := make([]string, 0)
   for k_i := range Locations() {
     keys = append(keys, k_i)
   }
+  // Indexing of locations is done in sorted order. So we have to traverse in
+  // sorted order for processing user queries.
   sort.Strings(keys)
+
   for k_i, v_i := range keys {
+    // counter for go routines
     wg.Add(1)
+
+    // call go routine
     go func(k_i int, v_i string, keys []string) {
       defer wg.Done() // Decrement the counter when the goroutine completes.
       for k_j, v_j := range keys {
@@ -49,15 +59,36 @@ func Create_dist_matrix() {
       }
     }(k_i, v_i, keys)
   }
+
   // Wait for all go routines to complete
   wg.Wait()
+
   // fmt.Println("check", Dist_matrix) // debugging
   // fall back to old log incase google api is down or resulted in an error
   if updated_matrix == true {
     check_matrix_file("old")
     return
   }
+
   write_matrix_file()
+}
+
+// MatToDynMat is a helper function which converts the 35*35 matrix (Dist_matrix)
+// to a dynamic [][]float64 matrix in accordance with kruskals requirement.
+// Input: None
+// Output: weight[ weight of edge between the two locations ] i.e. float64
+func MatToDynMat() [][]float64 {
+  var mat [][]float64
+
+  for i := 0; i < 35; i++ {
+    var row = make([]float64, 35)
+    for j := 0; j < 35; j++ {
+      row[j] = Dist_matrix[i][j]
+    }
+    mat = append(mat, row)
+  }
+
+  return mat
 }
 
 // assign_weight is responsible to normalize the two weights - distance and traffic
@@ -68,6 +99,8 @@ func Create_dist_matrix() {
 func assign_weight(dist, traff float64) float64 {
   var weight = dist
   weight += (dist * avg_speed)
+
+  // return in km's
   return weight / 1000
 }
 
@@ -80,16 +113,20 @@ func assign_weight(dist, traff float64) float64 {
 func check_matrix_file(f_type string) {
   var file *os.File
   var err error
+
   if strings.Compare(f_type, "new") == 0 {
     file, err = os.Open("dist_matrix.log")
   } else {
     file, err = os.Open("dist_matrix.log.old")
   }
+
   if err != nil {
     log.Fatal(err)
   }
+
   defer file.Close()
-  // PST date to be verified
+
+  // PST date to be verified, IST to process current file.
   IST, err := time.LoadLocation("Asia/Kolkata")
   if err != nil {
     fmt.Println(err)
@@ -105,11 +142,13 @@ func check_matrix_file(f_type string) {
   currentTime := time.Now()
   t, err := time.ParseInLocation(longForm, currentTime.Format("2006-01-02 15:04:05"), IST)
   result := strings.Split(t.In(PST).String(), " ")
+
   scanner := bufio.NewScanner(file)
   scanner.Scan()
   if strings.Compare(scanner.Text(), result[0]) != 0 { // not-updated
     return
   }
+
   // updated, so read matrix from file
   updated_matrix = true
   for i := 0; i < 35; i++ {
@@ -124,6 +163,7 @@ func check_matrix_file(f_type string) {
       }
     }
   }
+
   if err := scanner.Err(); err != nil {
     log.Fatal(err)
   }
@@ -141,6 +181,7 @@ func write_matrix_file() {
     file.Close()
     os.Exit(3)
   }
+
   // PST date to be entered
   IST, err := time.LoadLocation("Asia/Kolkata")
   if err != nil {
@@ -157,12 +198,14 @@ func write_matrix_file() {
   currentTime := time.Now()
   t, err := time.ParseInLocation(longForm, currentTime.Format("2006-01-02 15:04:05"), IST)
   result := strings.Split(t.In(PST).String(), " ")
+
   fmt.Fprintln(file, result[0])
   if err != nil {
     fmt.Println(err)
     file.Close()
     return
   }
+
   for i := 0; i < 35; i++ {
     for j := 0; j < 35; j++ {
       var data = Dist_matrix[i][j]
@@ -170,6 +213,7 @@ func write_matrix_file() {
       fmt.Fprintln(file, s64)
     }
   }
+
   err = file.Close()
   if err != nil {
     fmt.Println(err)

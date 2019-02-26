@@ -38,7 +38,7 @@ func FindMinVertex(weights []float64, tracker []bool) int {
 //        A single int, representing the source vertex
 // Output: A []float64 slice containg the smallest weights for all paths from the source
 //         vertex to other vertices
-func SingleSourceDijkstras(matrix [35][35]float64, src int) []float64 {
+func SingleSourceDijkstras(matrix [][]float64, src int) []float64 {
 	var tracker []bool = make([]bool, len(matrix))
 	var minWeights []float64 = make([]float64, len(matrix))
 

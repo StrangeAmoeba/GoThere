@@ -6,7 +6,7 @@ import (
 	"math"
 )
 
-const number_of_nodes = 50
+const number_of_nodes = 35
 
 var float_max = math.MaxFloat64
 

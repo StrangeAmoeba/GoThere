@@ -7,6 +7,7 @@ import (
   "log"
   "net/http"
   "os"
+  // "sort"
   "strings"
 )
 
@@ -77,11 +78,20 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
       fmt.Fprintf(w, "ParseForm() err: %v", err)
       return
     }
-    var indices = get_indices(r.Form)
-    // best_path := tsp.Get_best_path(server.Dist_matrix, indices)
-    // fmt.Println(best_path)
-    fmt.Println(indices)
-    // fmt.Fprintf(w, "%v %v\n", r.Form, reflect.TypeOf(r.Form))
+    fmt.Println(r.Form)
+    // var indices = get_indices(r.Form)
+    // sort.Ints(indices) // sort the locations indices in increasing order
+    // var dist_slice_matrix = server.MatToDynMat()
+    // best_path := tsp.Get_best_path(dist_slice_matrix, indices)
+
+    // for i := 0; i < len(best_path); i++ {
+    //   for j := range server.Locations() {
+    //     if best_path[i] == server.Locations()[j].Index {
+    //       fmt.Println(best_path[i], j)
+    //       break
+    //     }
+    //   }
+    // }
   default:
     fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
   }
@@ -96,8 +106,10 @@ func main() {
   if err != nil {
     log.Fatal(err)
   }
+
   http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
   http.HandleFunc("/", serveForm)
+
   log.Printf("Listening on %s...\n", addr)
   if err := http.ListenAndServe(addr, nil); err != nil {
     panic(err)

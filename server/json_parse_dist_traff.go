@@ -18,9 +18,12 @@ import (
 // Output: weight[ weight of edge between the two locations ] i.e. float64
 func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
   var url = constructURL(Locations()[loc1], Locations()[loc2]) // external_api
+
   var content = getResponse(url)
+
   var directions dt.Dir_info
   json.Unmarshal([]byte(content), &directions)
+
   if strings.Compare(directions.Status, "OVER_QUERY_LIMIT") == 0 {
     fmt.Println("OVER QUERY LIMIT")
     updated_matrix = true
@@ -30,10 +33,12 @@ func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
     updated_matrix = true
     return
   }
+
   var dist = directions.Routes[0].Legs[0].Distance.Val
   var traff = directions.Routes[0].Legs[0].Duration_traffic.Val
   // var dist = randFloats(1000.0, 10000.0, 1)
   // var traff = randFloats(1000.0, 6000.0, 1)
+
   Dist_matrix[key1][key2] = assign_weight(dist, traff) // distance_matrix
   // getRespFile() - for debugging only
 }
@@ -45,11 +50,13 @@ func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
 // Output: None
 func getRespFile() {
   jsonFile, err := os.Open("server/example-route.json")
+
   // if we os.Open returns an error then handle it
   if err != nil {
     fmt.Println(err)
   }
   fmt.Println("Successfully Opened json file")
+
   // defer the closing of our jsonFile so that we can parse it later on
   defer jsonFile.Close()
 
@@ -66,8 +73,10 @@ func getRespFile() {
 // Output: res[ an array of random numbers ] i.e. []float64
 func randFloats(min, max float64, n int) []float64 {
   res := make([]float64, n)
+
   for i := range res {
     res[i] = min + rand.Float64()*(max-min)
   }
+
   return res
 }
