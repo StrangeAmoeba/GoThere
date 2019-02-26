@@ -2,6 +2,7 @@ package main
 
 import (
   "concurrency-9/server"
+  // "concurrency-9/tsp"
   "fmt"
   "log"
   "net/http"
@@ -77,6 +78,8 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
       return
     }
     var indices = get_indices(r.Form)
+    // best_path := tsp.Get_best_path(server.Dist_matrix, indices)
+    // fmt.Println(best_path)
     fmt.Println(indices)
     // fmt.Fprintf(w, "%v %v\n", r.Form, reflect.TypeOf(r.Form))
   default:

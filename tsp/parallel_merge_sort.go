@@ -1,27 +1,31 @@
 package tsp
 
 import (
+	"concurrency-9/data_types"
 	"math"
 	"sync"
 	// "fmt"
 )
 
+// Merge_Sort, a parallel version of mergesort which brings down running time to O(n).
+//
+//   Input: s i.e. data_types.Graph_edge
+//   Output: s, sorted i.e. data_types.Graph_edge
+func Merge_Sort(s []data_types.Graph_edge) []data_types.Graph_edge {
 
-func Merge_Sort(s []float64) []float64 {
-	
 	// nearest power of 2 to len(s)
 	var k float64 = math.Ceil(math.Log2(float64(len(s))))
-	
+
 	// number of numbers to be added to the slice
 	var diff int = int(math.Exp2(k) - float64(len(s)))
 
 	// looping to add the deficit
-	for i:=0;i<diff;i++ {
-		s = append(s, -1)
+	for i := 0; i < diff; i++ {
+		s = append(s, data_types.Graph_edge{-1, -1, -1})
 	}
 
 	// call normal mergesort for smaller arrays
-	if(len(s) > 1024) {
+	if len(s) < 1024 {
 		normal_mergesort(s)
 	} else {
 		parallel_mergesort(s)
@@ -31,7 +35,7 @@ func Merge_Sort(s []float64) []float64 {
 	// fmt.Printf("%v", s)
 }
 
-func normal_mergesort(s []float64) {
+func normal_mergesort(s []data_types.Graph_edge) {
 
 	// straight-forward implementation of mergesort
 
@@ -44,8 +48,7 @@ func normal_mergesort(s []float64) {
 	}
 }
 
-
-func parallel_mergesort(s []float64) {
+func parallel_mergesort(s []data_types.Graph_edge) {
 	// fmt.Println("using parallel")
 
 	if len(s) > 1 {
@@ -72,8 +75,8 @@ func parallel_mergesort(s []float64) {
 	}
 }
 
-func merge(s []float64, middle int) {
-	helper := make([]float64, len(s))
+func merge(s []data_types.Graph_edge, middle int) {
+	helper := make([]data_types.Graph_edge, len(s))
 	copy(helper, s)
 
 	var tempLeft int = 0
@@ -82,7 +85,7 @@ func merge(s []float64, middle int) {
 	high := len(s) - 1
 
 	for tempLeft <= middle-1 && tempRight <= high {
-		if helper[tempLeft] <= helper[tempRight] {
+		if helper[tempLeft].Weight <= helper[tempRight].Weight {
 			s[current] = helper[tempLeft]
 			tempLeft++
 		} else {

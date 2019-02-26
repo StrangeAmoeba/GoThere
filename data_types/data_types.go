@@ -82,3 +82,17 @@ type Point struct {
 }
 
 /* google api - json struct ends here */
+
+type Graph_edge struct {
+  Src,Dst int
+  Weight float64
+}
+
+type Tree_node struct {
+  Value int
+  Children [] int
+}
+
+type Tree struct {
+  Nodes []Tree_node
+}
