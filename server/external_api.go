@@ -1,11 +1,11 @@
 package server
 
 import (
-  "fmt"
-  "net/http"
-  "io/ioutil"
   dt "concurrency-9/data_types"
-  )
+  "fmt"
+  "io/ioutil"
+  "net/http"
+)
 
 func constructURL(origin, dest dt.Vertex) string {
   var url = "https://maps.googleapis.com/maps/api/directions/json?origin="
@@ -20,7 +20,7 @@ func constructURL(origin, dest dt.Vertex) string {
   return url
 }
 
-func getResponse(url string) []byte{
+func getResponse(url string) []byte {
   resp, err := http.Get(url)
   // handle the error if there is one
   if err != nil {

@@ -1,9 +1,9 @@
 package tsp
 
 import (
+	"concurrency-9/data_types"
 	"math"
 	"sync"
-	"concurrency-9/data_types"
 	// "fmt"
 )
 
@@ -12,20 +12,20 @@ import (
 //   Input: s i.e. data_types.Graph_edge
 //   Output: s, sorted i.e. data_types.Graph_edge
 func Merge_Sort(s []data_types.Graph_edge) []data_types.Graph_edge {
-	
+
 	// nearest power of 2 to len(s)
 	var k float64 = math.Ceil(math.Log2(float64(len(s))))
-	
+
 	// number of numbers to be added to the slice
 	var diff int = int(math.Exp2(k) - float64(len(s)))
 
 	// looping to add the deficit
-	for i:=0;i<diff;i++ {
-		s = append(s, data_types.Graph_edge{-1,-1,-1})
+	for i := 0; i < diff; i++ {
+		s = append(s, data_types.Graph_edge{-1, -1, -1})
 	}
 
 	// call normal mergesort for smaller arrays
-	if(len(s) < 1024) {
+	if len(s) < 1024 {
 		normal_mergesort(s)
 	} else {
 		parallel_mergesort(s)
@@ -47,7 +47,6 @@ func normal_mergesort(s []data_types.Graph_edge) {
 		merge(s, middle)
 	}
 }
-
 
 func parallel_mergesort(s []data_types.Graph_edge) {
 	// fmt.Println("using parallel")

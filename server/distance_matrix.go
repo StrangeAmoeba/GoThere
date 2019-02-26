@@ -1,12 +1,12 @@
 package server
 
 import (
-  "fmt"
-  "os"
-  "encoding/json"
-  "io/ioutil"
   dt "concurrency-9/data_types"
-  )
+  "encoding/json"
+  "fmt"
+  "io/ioutil"
+  "os"
+)
 
 func Dist_matrix() {
   // for key, val := range Locations() {
