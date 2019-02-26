@@ -70,7 +70,7 @@ func find_min(local []*node) (*node){
 	return min_node
 }
 
-func compute(cluster *node,members *node,source int,
+func compute(members *node,source int,
 	dest int,ch chan *node,adj_matrix [][] float64,quit chan int,pred map[int]int){
 	s := source
 	var d float64
@@ -93,7 +93,6 @@ func compute(cluster *node,members *node,source int,
 		ch <- min_node
 		g_min := <- ch
 		pred[g_min.index] = g_min.pred
-		cluster = add(cluster,g_min.index,g_min.dist,g_min.pred)
 		if min_node != nil{
 			if min_node.index == g_min.index{
 				members = delete(members,min_node.index)
