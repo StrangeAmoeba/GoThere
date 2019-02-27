@@ -64,7 +64,7 @@ func getIndices(loc map[string][]string) []int {
 func determineListenAddress() (string, error) {
   port := os.Getenv("PORT")
   if port == "" {
-    return "9000", fmt.Errorf("$PORT not set, using :9000")
+    return ":9000", fmt.Errorf("$PORT not set, using :9000")
   }
   return ":" + port, nil
 }
@@ -141,7 +141,7 @@ func main() {
   // web app
   addr, err := determineListenAddress()
   if err != nil {
-    log.Fatal(err)
+    fmt.Println(err)
   }
 
   http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
