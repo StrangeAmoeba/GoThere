@@ -4,10 +4,11 @@
 
 package server
 
-import dt "concurrency-9/data_types"
+import dt "concurrency-9/dataTypes"
 
 // Locations returns a map[string] of type dt.Vertex.
 // Other packages can access these places using Locations()
+//
 // Input: none
 // Output: A map[string] dt.Vertex
 var Locations = func() map[string]dt.Vertex {
@@ -24,12 +25,12 @@ var Locations = func() map[string]dt.Vertex {
       17.549203, 78.385600, 4},
     "begumpet": dt.Vertex{
       17.444339, 78.469836, 5},
-    "borabanda": dt.Vertex{
-      17.457145, 78.412862, 6},
-    "bowenpally": dt.Vertex{
-      17.473768, 78.487278, 7},
     "bhel": dt.Vertex{
-      17.491567, 78.292227, 8},
+      17.491567, 78.292227, 6},
+    "borabanda": dt.Vertex{
+      17.457145, 78.412862, 7},
+    "bowenpally": dt.Vertex{
+      17.473768, 78.487278, 8},
     "brundavancolony": dt.Vertex{
       17.527584, 78.492173, 9},
     "chandanagar": dt.Vertex{
@@ -82,5 +83,50 @@ var Locations = func() map[string]dt.Vertex {
       17.610880, 78.273745, 33},
     "yeddumailaram": dt.Vertex{
       17.500511, 78.135255, 34},
+  }
+}
+
+// LocKeys returns a [35]string of placecs in human readable format.
+// Other packages can access these places using LocKeys()
+//
+// Input: none
+// Output: A array of places i.e. [35]string
+var LocKeys = func() [35]string {
+  return [35]string{
+    "Ahmedguda",
+    "Allwyn Colony",
+    "Ameenpur",
+    "Ameerpet",
+    "Bachupally",
+    "Begumpet",
+    "Borabanda",
+    "Bowenpally",
+    "Bhel",
+    "Brundavan Colony",
+    "Chandanagar",
+    "Fatehnagar",
+    "Gachibowli",
+    "Gautam Nagar",
+    "Hafeezpet",
+    "Hitec City",
+    "Hydernagar",
+    "Jubilee Hills",
+    "Kandi",
+    "Kompally",
+    "Kondapur",
+    "Kukatpally",
+    "Lingampally",
+    "Madhapur",
+    "Miyapur",
+    "Nallagandla",
+    "Nizampet",
+    "Patancheru",
+    "Patel Nagar",
+    "Sai Nagar",
+    "Sanath Nagar",
+    "Sangareddy",
+    "Shamshiguda",
+    "Siva Nagar",
+    "Yeddumailaram",
   }
 }
