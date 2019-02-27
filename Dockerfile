@@ -2,7 +2,7 @@ FROM golang:1.12-alpine
 
 MAINTAINER Tanmay R < Tanmay Renugunta "tanmay17200@gmail.com" >
 
-WORKDIR /go/src/app
+WORKDIR /go/src/concurrency-9
 
 ADD . .
 
