@@ -8,6 +8,7 @@ import dt "concurrency-9/data_types"
 
 // Locations returns a map[string] of type dt.Vertex.
 // Other packages can access these places using Locations()
+//
 // Input: none
 // Output: A map[string] dt.Vertex
 var Locations = func() map[string]dt.Vertex {
@@ -82,5 +83,50 @@ var Locations = func() map[string]dt.Vertex {
       17.610880, 78.273745, 33},
     "yeddumailaram": dt.Vertex{
       17.500511, 78.135255, 34},
+  }
+}
+
+// Locations returns a [35]string of placecs in human readable format.
+// Other packages can access these places using Loc_keys()
+//
+// Input: none
+// Output: A array of places i.e. [35]string
+var Loc_Keys = func() [35]string {
+  return [35]string{
+    "Ahmedguda",
+    "Allwyn Colony",
+    "Ameenpur",
+    "Ameerpet",
+    "Bachupally",
+    "Begumpet",
+    "Borabanda",
+    "Bowenpally",
+    "Bhel",
+    "Brundavan Colony",
+    "Chandanagar",
+    "Fatehnagar",
+    "Gachibowli",
+    "Gautam Nagar",
+    "Hafeezpet",
+    "Hitec City",
+    "Hydernagar",
+    "Jubilee Hills",
+    "Kandi",
+    "Kompally",
+    "Kondapur",
+    "Kukatpally",
+    "Lingampally",
+    "Madhapur",
+    "Miyapur",
+    "Nallagandla",
+    "Nizampet",
+    "Patancheru",
+    "Patel Nagar",
+    "Sai Nagar",
+    "Sanath Nagar",
+    "Sangareddy",
+    "Shamshiguda",
+    "Siva Nagar",
+    "Yeddumailaram",
   }
 }

@@ -82,30 +82,40 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
   switch r.Method {
   case "GET":
     http.ServeFile(w, r, "public/form.html")
+
   case "POST":
     if err := r.ParseForm(); err != nil {
       fmt.Fprintf(w, "ParseForm() err: %v", err)
       return
     }
-    // fmt.Println(r.Form, len(r.Form), r.Form["form_data[0][name]"])
+    fmt.Println(r.Form, len(r.Form))
     var indices = get_indices(r.Form)
+    fmt.Println(indices)
     sort.Ints(indices) // sort the locations indices in increasing order
     var dist_slice_matrix = server.MatToDynMat()
     best_path := tsp.Get_best_path(dist_slice_matrix, indices)
 
-    // keys to get the locations from given index
-    keys := make([]string, 0)
-    for k := range server.Locations() {
-      keys = append(keys, k)
-    }
-    // give ordering for optimizing search
-    sort.Strings(keys)
-
-    // to output the best path
+    // store the best path
     var length = len(best_path)
+    fmt.Println(length)
+    var path = make([]string, 0)
     for i := 0; i < length; i++ {
-      fmt.Println(keys[best_path[i]])
+      path = append(path, server.Loc_Keys()[best_path[i]])
     }
+
+    // write with JSON parsable string syntax
+    var json strings.Builder
+    // start with json stringified array and enter first location
+    fmt.Fprintf(&json, "{\"path\":[\"%v\"", path[0])
+    // append the locations to the json stringified array
+    for i := 1; i < length; i++ {
+      fmt.Fprintf(&json, ", \"%v\"", path[i])
+    }
+    // close the json stringified array
+    fmt.Fprintf(&json, "]}")
+    fmt.Fprintf(w, "%v", json.String())
+    json.Reset()
+
   default:
     fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
   }
