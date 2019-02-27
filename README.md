@@ -8,9 +8,16 @@ This project is a partial fullfillment for CS2433 (Principles of Programming Lan
 
 ## Instructions
 
+
+## Contributor Instructions
+
+Run the following command to get the tools that run during pre-commit checks
+
+> go get golang.org/x/tools/cmd/goimports && go get golang.org/x/tools/cmd/goimports && git config core.hooksPath .githooks
+
 ## Contributors
 
-Sai Harsha Kottapalli <br>
-Sagar Jain <br>
-Tanmay Renugunta <br>
+Sai Harsha Kottapalli  
+Sagar Jain  
+Tanmay Renugunta  
 Bogga Srinivas
