@@ -13,6 +13,7 @@ import (
 // dist_traffic uses the google_directions_api and with the help of
 // defined struct to parse json, we obtain distance and traffic weights
 // calls assign_weight() to normalize the two parameters into one weight.
+//
 // Input: key1[ to assign the weight to the Dist_matrix ] i.e. int, loc1[ origin of the route ] i.e. string
 // key1[ to assign the weight to the Dist_matrix ] i.e. int, loc2[ origin of the route ] i.e. string
 // Output: weight[ weight of edge between the two locations ] i.e. float64
@@ -46,6 +47,7 @@ func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
 // getRespFile is a helper function
 // useful for debugging. Can access json file to obtain the parsed data.
 // uses (server/example-route.json).
+//
 // Input: None
 // Output: None
 func getRespFile() {
@@ -68,6 +70,7 @@ func getRespFile() {
 
 // randFloats is a helper function
 // useful for debugging. Generate an array of random float64
+//
 // Input: min[ minimum bound ] i.e. float64, max[ maximum bound ] i.e. float64
 // n[ size of random numbers array ] i.e. int
 // Output: res[ an array of random numbers ] i.e. []float64

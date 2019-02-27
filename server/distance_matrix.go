@@ -21,6 +21,7 @@ var updated_matrix = false
 // route. The matrix created can later be accessed using Dist_matrix which is of the type [][]float64
 // We use go routines to create the matrix as quickly as possible.
 // WaitGroup is used to find if all go routines have completed their execution.
+//
 // Input: None
 // Output: None
 func Create_dist_matrix() {
@@ -75,6 +76,7 @@ func Create_dist_matrix() {
 
 // MatToDynMat is a helper function which converts the 35*35 matrix (Dist_matrix)
 // to a dynamic [][]float64 matrix in accordance with kruskals requirement.
+//
 // Input: None
 // Output: weight[ weight of edge between the two locations ] i.e. float64
 func MatToDynMat() [][]float64 {
@@ -93,6 +95,7 @@ func MatToDynMat() [][]float64 {
 
 // assign_weight is responsible to normalize the two weights - distance and traffic
 // into one weight.
+//
 // Input: dist[ weight representing distance of route ] i.e. float64,
 // traff[ weight representing traffic in route ] i.e. float64
 // Output: weight[ weight of edge between the two locations ] i.e. float64
@@ -107,7 +110,8 @@ func assign_weight(dist, traff float64) float64 {
 // check_matrix_file is responsible to check if the current date stamp on file
 // is different from current date.(Pacific Time Zone)
 // If the current date stamp matches with current date, then update Dist_matrix
-// else update updated_matrix accordingly
+// else update updated_matrix accordingly.
+//
 // Input: f_type [ log to be checked - old or new ] i.e. string
 // Output: None
 func check_matrix_file(f_type string) {
@@ -172,6 +176,7 @@ func check_matrix_file(f_type string) {
 // write_matrix_file is responsible to store the generated weight matrix into a file for accessing
 // the matrix on the same day later again. Saves api requests made to google api.
 // Only writes if the current date stamp on file is different from current date.(Pacific Time Zone)
+//
 // Input: None
 // Output: None
 func write_matrix_file() {
