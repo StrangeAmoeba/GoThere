@@ -14,6 +14,7 @@ import (
 // get_indices is responsible to parse through the form response given by form.html to
 // find the user queried locations. The parsed data will consist of locations which
 // in turn will be converted to indices, each representing their index in the Dist_matrix.
+//
 // Input: loc [ user queried locations from the form ] i.e. map[string][]string
 // Output: indices [ array of user queries locations in indices ] i.e. []int
 func get_indices(loc map[string][]string) []int {
@@ -57,12 +58,13 @@ func get_indices(loc map[string][]string) []int {
 // determineListenAddress figures out what address to listen on for traffic.
 // It uses the $PORT environment variable only to determine this.
 // If $PORT isn’t set an error is returned instead.
+//
 // Input: none
 // Output: port[ $PORT env variable ] i.e. string, err[ $PORT not set ] i.e. error
 func determineListenAddress() (string, error) {
   port := os.Getenv("PORT")
   if port == "" {
-    return "", fmt.Errorf("$PORT not set")
+    return "9000", fmt.Errorf("$PORT not set, using :9000")
   }
   return ":" + port, nil
 }
@@ -70,6 +72,7 @@ func determineListenAddress() (string, error) {
 // serveForm is a handler which responds to an HTTP request.
 // Currently supports GET and POST requests.
 // Serves form.html in public
+//
 // Input: w [ used to construct an HTTP response. ] i.e. http.ResponseWriter,
 // r [ pointer to http Request ] i.e. *http.Request
 // Output: None
@@ -88,16 +91,13 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
       fmt.Fprintf(w, "ParseForm() err: %v", err)
       return
     }
-    fmt.Println(r.Form, len(r.Form))
     var indices = get_indices(r.Form)
-    fmt.Println(indices)
     sort.Ints(indices) // sort the locations indices in increasing order
     var dist_slice_matrix = server.MatToDynMat()
     best_path := tsp.Get_best_path(dist_slice_matrix, indices)
 
     // store the best path
     var length = len(best_path)
-    fmt.Println(length)
     var path = make([]string, 0)
     for i := 0; i < length; i++ {
       path = append(path, server.Loc_Keys()[best_path[i]])
