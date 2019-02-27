@@ -12,8 +12,11 @@ $( "#go-form" ).submit(function( event ) {
   var posting = $.post( url, { "form_data": term } );
   // Put the results in a result div
   posting.done(function( data ) {
-    obj = JSON.parse(data);
-    console.log("debug", obj);
+    loc_obj = JSON.parse(data);
+
+    // loc_obj consists of info, lat, long of a place respectively.
+    initMap(loc_obj);
+    console.log("debug", loc_obj);
     var content = data
     $("#result").empty().append(content);
   });

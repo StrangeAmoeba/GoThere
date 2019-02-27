@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="public/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="public/styles/style.css">
 
     <title>Go Locations</title>
   </head>
@@ -59,13 +60,15 @@
       </div>
       <button type="submit" class="btn btn-primary">Go!</button>
     </form>
-    <div id="result">
-    </div>
+    <div id="result"></div>
+    <div id="map"></div>
     <!-- jQuery first(not slim), then Popper.js, then Bootstrap JS -->
     <script src="public/js/jquery-3.3.1.min.js"></script>
     <script src="public/js/popper.min.js"></script>
     <script src="public/js/bootstrap.min.js"></script>
     <script src="public/js/fields.js"></script>
     <script src="public/js/submit.js"></script>
+    <script src="public/js/maps.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUJjTw3LKudLIxSj_saJQLHsmH_RTfa9w"></script>
   </body>
 </html>

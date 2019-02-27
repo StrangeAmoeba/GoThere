@@ -91,26 +91,41 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
       fmt.Fprintf(w, "ParseForm() err: %v", err)
       return
     }
+
     var indices = getIndices(r.Form)
     sort.Ints(indices) // sort the locations indices in increasing order
     var bestPath = tsp.GetBestPath(server.DistSliceMatrix, indices)
-    // store the best path
-    var length = len(bestPath)
-    var path = make([]string, 0)
-    for i := 0; i < length; i++ {
-      path = append(path, server.LocKeys()[bestPath[i]])
+
+    // keys to get the locations - Lat and Long, from given index
+    keys := make([]string, 0)
+    for k := range server.Locations() {
+      keys = append(keys, k)
     }
+    // give ordering for optimizing search
+    sort.Strings(keys)
+
+    var length = len(bestPath)
 
     // write with JSON parsable string syntax
     var json strings.Builder
     // start with json stringified array and enter first location
-    fmt.Fprintf(&json, "{\"path\":[\"%v\"", path[0])
+    fmt.Fprintf(&json, "{\"path\":[[\"%v\", \"%v\", \"%v\"]",
+      server.LocKeys()[bestPath[0]],
+      server.Locations()[keys[bestPath[0]]].Lat,
+      server.Locations()[keys[bestPath[0]]].Long)
+
     // append the locations to the json stringified array
     for i := 1; i < length; i++ {
-      fmt.Fprintf(&json, ", \"%v\"", path[i])
+      fmt.Fprintf(&json, ", [\"%v\", \"%v\", \"%v\"]",
+        server.LocKeys()[bestPath[i]],
+        server.Locations()[keys[bestPath[i]]].Lat,
+        server.Locations()[keys[bestPath[i]]].Long)
     }
     // close the json stringified array
     fmt.Fprintf(&json, "]}")
+
+    // We write an object in strigified form where -
+    // each array in the array consists of info, lat, long of a place respectively.
     fmt.Fprintf(w, "%v", json.String())
     json.Reset()
 
