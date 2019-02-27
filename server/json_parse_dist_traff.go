@@ -8,6 +8,7 @@ import (
   "math/rand"
   "os"
   "strings"
+  "time"
 )
 
 // dist_traffic uses the google_directions_api and with the help of
@@ -18,30 +19,43 @@ import (
 // key1[ to assign the weight to the Dist_matrix ] i.e. int, loc2[ origin of the route ] i.e. string
 // Output: weight[ weight of edge between the two locations ] i.e. float64
 func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
-  var url = constructURL(Locations()[loc1], Locations()[loc2]) // external_api
+  var limit = false
+  for {
+    var url = constructURL(Locations()[loc1], Locations()[loc2]) // external_api
 
-  var content = getResponse(url)
+    var content = getResponse(url)
 
-  var directions dt.Dir_info
-  json.Unmarshal([]byte(content), &directions)
+    var directions dt.Dir_info
+    json.Unmarshal([]byte(content), &directions)
 
-  if strings.Compare(directions.Status, "OVER_QUERY_LIMIT") == 0 {
-    fmt.Println("OVER QUERY LIMIT")
-    updated_matrix = true
+    if strings.Compare(directions.Status, "OVER_QUERY_LIMIT") == 0 {
+      fmt.Println("OVER QUERY LIMIT")
+
+      // now call with 1s timer, then we determine daily limit is exceeded
+      if limit == false {
+        time.Sleep(1100 * time.Millisecond)
+        limit = true // now the error should not be met
+        continue
+      }
+
+      // else if there is actually a limit, we fall back and load our backup data
+      updated_matrix = true
+      return
+    } else if strings.Compare(directions.Status, "OK") != 0 {
+      fmt.Println("ERROR - GOOGLE API REJECTED QUERY")
+      updated_matrix = true
+      return
+    }
+
+    var dist = directions.Routes[0].Legs[0].Distance.Val
+    var traff = directions.Routes[0].Legs[0].Duration_traffic.Val
+    // var dist = randFloats(1000.0, 10000.0, 1) // debugging
+    // var traff = randFloats(1000.0, 6000.0, 1) // debugging
+
+    Dist_matrix[key1][key2] = assign_weight(dist, traff) // distance_matrix
     return
-  } else if strings.Compare(directions.Status, "OK") != 0 {
-    fmt.Println("ERROR - GOOGLE API REJECTED QUERY")
-    updated_matrix = true
-    return
+    // getRespFile() - for debugging only
   }
-
-  var dist = directions.Routes[0].Legs[0].Distance.Val
-  var traff = directions.Routes[0].Legs[0].Duration_traffic.Val
-  // var dist = randFloats(1000.0, 10000.0, 1)
-  // var traff = randFloats(1000.0, 6000.0, 1)
-
-  Dist_matrix[key1][key2] = assign_weight(dist, traff) // distance_matrix
-  // getRespFile() - for debugging only
 }
 
 // getRespFile is a helper function
