@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_sort(t *testing.T) {
+func TestSort(t *testing.T) {
 	cases := []struct {
 		in, want []dt.Graph_edge
 	}{
@@ -24,4 +24,8 @@ func Test_sort(t *testing.T) {
 		t.Errorf("Failed Sort")
 		// t.Log()
 	}
+}
+
+func TestKruskals(t *testing.T) {
+
 }

@@ -5,16 +5,13 @@ import (
 	// "fmt"
 )
 
-var done []int
-var tr []int
-
 func pre_order_walk(edges []dt.Graph_edge) []int {
 	var edge_sym []dt.Graph_edge
 	for i := 0; i < len(edges); i++ {
 		edge_sym = append(edge_sym, dt.Graph_edge{edges[i].Dst, edges[i].Src, edges[i].Weight})
 		edge_sym = append(edge_sym, edges[i])
 	}
-	pre_order_node(edge_sym, 0)
+	tr := pre_order_node(edge_sym, 0)
 	return tr
 }
 
@@ -27,7 +24,9 @@ func find_in_slice(to_find int, slice []int) bool {
 	return false
 }
 
-func pre_order_node(edges []dt.Graph_edge, node int) {
+func pre_order_node(edges []dt.Graph_edge, node int) []int {
+	var done []int
+	var tr []int
 	tr = append(tr, node)
 	done = append(done, node)
 	for i := 0; i < len(edges); i++ {
@@ -35,4 +34,5 @@ func pre_order_node(edges []dt.Graph_edge, node int) {
 			pre_order_node(edges, edges[i].Dst)
 		}
 	}
+	return tr
 }
