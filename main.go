@@ -98,7 +98,7 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
     var length = len(bestPath)
     var path = make([]string, 0)
     for i := 0; i < length; i++ {
-      path = append(path, server.locKeys()[bestPath[i]])
+      path = append(path, server.LocKeys()[bestPath[i]])
     }
 
     // write with JSON parsable string syntax

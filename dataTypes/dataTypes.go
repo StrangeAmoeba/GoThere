@@ -66,7 +66,7 @@ type Leg struct {
   StartAddress    string        `json:"start_address"`
   StartLocation   LatLong       `json:"start_location"`
   Steps           []Step        `json:"steps"`
-  ViaWaypoint     []ViaWaypoint `json:"via_waypoint"`
+  ViaWaypoints    []ViaWaypoint `json:"via_waypoint"`
 }
 
 type Info struct {
@@ -85,7 +85,7 @@ type Step struct {
   TravelMode       string  `json:"travel_mode"`
 }
 
-type Via_waypoint struct {
+type ViaWaypoint struct {
   Location          LatLong `json:"location"`
   StepIndex         int     `json:"step_index"`
   StepInterpolation float64 `json:"step_interpolation"`

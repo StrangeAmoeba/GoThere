@@ -21,7 +21,7 @@ import (
 // Output: weight[ weight of edge between the two locations ] i.e. float64
 func distTraffic(key1 int, loc1 string, key2 int, loc2 string) {
   var limit = false
-  time.Sleep(key1 * 10 * time.Millisecond) // so that all request are not exactly made simutaneously.
+  time.Sleep(time.Duration(key1*10) * time.Millisecond) // so that all request are not exactly made simutaneously.
   for {
     var url = constructURL(Locations()[loc1], Locations()[loc2]) // externalApi
 
