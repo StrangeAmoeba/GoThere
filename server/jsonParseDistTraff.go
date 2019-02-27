@@ -1,7 +1,7 @@
 package server
 
 import (
-  dt "concurrency-9/data_types"
+  dt "concurrency-9/dataTypes"
   "encoding/json"
   "fmt"
   "io/ioutil"
@@ -11,21 +11,23 @@ import (
   "time"
 )
 
-// dist_traffic uses the google_directions_api and with the help of
+// distTraffic uses the google directions api and with the help of
 // defined struct to parse json, we obtain distance and traffic weights
-// calls assign_weight() to normalize the two parameters into one weight.
+// calls assignWeight() to normalize the two parameters into one weight.
+// key1 also serves the id for the go thread out of the 35 ones used.
 //
-// Input: key1[ to assign the weight to the Dist_matrix ] i.e. int, loc1[ origin of the route ] i.e. string
-// key1[ to assign the weight to the Dist_matrix ] i.e. int, loc2[ origin of the route ] i.e. string
+// Input: key1[ to assign the weight to the DistMatrix ] i.e. int, loc1[ origin of the route ] i.e. string
+// key1[ to assign the weight to the DistMatrix ] i.e. int, loc2[ origin of the route ] i.e. string
 // Output: weight[ weight of edge between the two locations ] i.e. float64
-func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
+func distTraffic(key1 int, loc1 string, key2 int, loc2 string) {
   var limit = false
+  time.Sleep(key1 * 10 * time.Millisecond) // so that all request are not exactly made simutaneously.
   for {
-    var url = constructURL(Locations()[loc1], Locations()[loc2]) // external_api
+    var url = constructURL(Locations()[loc1], Locations()[loc2]) // externalApi
 
     var content = getResponse(url)
 
-    var directions dt.Dir_info
+    var directions dt.DirInfo
     json.Unmarshal([]byte(content), &directions)
 
     if strings.Compare(directions.Status, "OVER_QUERY_LIMIT") == 0 {
@@ -39,20 +41,20 @@ func dist_traffic(key1 int, loc1 string, key2 int, loc2 string) {
       }
 
       // else if there is actually a limit, we fall back and load our backup data
-      updated_matrix = true
+      updatedMatrix = true
       return
     } else if strings.Compare(directions.Status, "OK") != 0 {
       fmt.Println("ERROR - GOOGLE API REJECTED QUERY")
-      updated_matrix = true
+      updatedMatrix = true
       return
     }
 
     var dist = directions.Routes[0].Legs[0].Distance.Val
-    var traff = directions.Routes[0].Legs[0].Duration_traffic.Val
+    var traff = directions.Routes[0].Legs[0].DurationTraffic.Val
     // var dist = randFloats(1000.0, 10000.0, 1) // debugging
     // var traff = randFloats(1000.0, 6000.0, 1) // debugging
 
-    Dist_matrix[key1][key2] = assign_weight(dist, traff) // distance_matrix
+    DistMatrix[key1][key2] = assignWeight(dist, traff) // distanceMatrix
     return
     // getRespFile() - for debugging only
   }
@@ -78,7 +80,7 @@ func getRespFile() {
 
   byteValue, _ := ioutil.ReadAll(jsonFile)
 
-  var directions dt.Dir_info
+  var directions dt.DirInfo
   json.Unmarshal([]byte(byteValue), &directions)
 }
 

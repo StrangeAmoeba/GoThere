@@ -1,7 +1,7 @@
 package server
 
 import (
-  dt "concurrency-9/data_types"
+  dt "concurrency-9/dataTypes"
   "fmt"
   "io/ioutil"
   "net/http"
@@ -19,7 +19,7 @@ func constructURL(origin, dest dt.Vertex) string {
   fmt.Fprintf(&url, "https://maps.googleapis.com/maps/api/directions/json?origin=")
 
   // server key
-  var key = "AIzaSyBisw5R9LJpmpp8gfxybNUVlUR7auQsTGw"
+  var key = "AIzaSyDUJjTw3LKudLIxSj_saJQLHsmH_RTfa9w"
 
   // attach origin co-ordinates to the url
   fmt.Fprintf(&url, "%s%s%s%s", fmt.Sprint(origin.Lat), ",", fmt.Sprint(origin.Long), "&destination=")

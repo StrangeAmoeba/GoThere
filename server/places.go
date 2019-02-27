@@ -4,7 +4,7 @@
 
 package server
 
-import dt "concurrency-9/data_types"
+import dt "concurrency-9/dataTypes"
 
 // Locations returns a map[string] of type dt.Vertex.
 // Other packages can access these places using Locations()
@@ -86,12 +86,12 @@ var Locations = func() map[string]dt.Vertex {
   }
 }
 
-// Locations returns a [35]string of placecs in human readable format.
-// Other packages can access these places using Loc_keys()
+// LocKeys returns a [35]string of placecs in human readable format.
+// Other packages can access these places using LocKeys()
 //
 // Input: none
 // Output: A array of places i.e. [35]string
-var Loc_Keys = func() [35]string {
+var LocKeys = func() [35]string {
   return [35]string{
     "Ahmedguda",
     "Allwyn Colony",

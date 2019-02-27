@@ -1,17 +1,16 @@
 package tsp
 
 import (
-	"concurrency-9/data_types"
+	"concurrency-9/dataTypes"
 	"math"
 	"sync"
-	// "fmt"
 )
 
-// Merge_Sort, a parallel version of mergesort which brings down running time to O(n).
+// MergeSort, a parallel version of mergesort which brings down running time to O(n).
 //
-//   Input: s i.e. data_types.Graph_edge
-//   Output: s, sorted i.e. data_types.Graph_edge
-func Merge_Sort(s []data_types.Graph_edge) []data_types.Graph_edge {
+// Input: s i.e. dataTypes.GraphEdge
+// Output: s, sorted i.e. dataTypes.GraphEdge
+func MergeSort(s []dataTypes.GraphEdge) []dataTypes.GraphEdge {
 
 	// nearest power of 2 to len(s)
 	var k float64 = math.Ceil(math.Log2(float64(len(s))))
@@ -21,34 +20,34 @@ func Merge_Sort(s []data_types.Graph_edge) []data_types.Graph_edge {
 
 	// looping to add the deficit
 	for i := 0; i < diff; i++ {
-		s = append(s, data_types.Graph_edge{-1, -1, -1})
+		s = append(s, dataTypes.GraphEdge{-1, -1, -1})
 	}
 
 	// call normal mergesort for smaller arrays
 	if len(s) < 1024 {
-		normal_mergesort(s)
+		normalMergesort(s)
 	} else {
-		parallel_mergesort(s)
+		parallelMergesort(s)
 	}
 
 	return s[diff:]
 	// fmt.Printf("%v", s)
 }
 
-func normal_mergesort(s []data_types.Graph_edge) {
+func normalMergesort(s []dataTypes.GraphEdge) {
 
 	// straight-forward implementation of mergesort
 
 	if len(s) > 1 {
 		middle := len(s) / 2
 		// Split in Middle and continue
-		normal_mergesort(s[:middle])
-		normal_mergesort(s[middle:])
+		normalMergesort(s[:middle])
+		normalMergesort(s[middle:])
 		merge(s, middle)
 	}
 }
 
-func parallel_mergesort(s []data_types.Graph_edge) {
+func parallelMergesort(s []dataTypes.GraphEdge) {
 	// fmt.Println("using parallel")
 
 	if len(s) > 1 {
@@ -62,12 +61,12 @@ func parallel_mergesort(s []data_types.Graph_edge) {
 		// defers to make-sure completion
 		go func() {
 			defer wg.Done()
-			parallel_mergesort(s[:middle])
+			parallelMergesort(s[:middle])
 		}()
 
 		go func() {
 			defer wg.Done()
-			parallel_mergesort(s[middle:])
+			parallelMergesort(s[middle:])
 		}()
 
 		wg.Wait()
@@ -75,8 +74,8 @@ func parallel_mergesort(s []data_types.Graph_edge) {
 	}
 }
 
-func merge(s []data_types.Graph_edge, middle int) {
-	helper := make([]data_types.Graph_edge, len(s))
+func merge(s []dataTypes.GraphEdge, middle int) {
+	helper := make([]dataTypes.GraphEdge, len(s))
 	copy(helper, s)
 
 	var tempLeft int = 0

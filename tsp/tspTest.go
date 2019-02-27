@@ -1,19 +1,19 @@
 package tsp
 
 import (
-	dt "concurrency-9/data_types"
+	dt "concurrency-9/dataTypes"
 	"testing"
 )
 
 func TestSort(t *testing.T) {
 	cases := []struct {
-		in, want []dt.Graph_edge
+		in, want []dt.GraphEdge
 	}{
-		{[]dt.Graph_edge{{-1, -1, 6}, {-1, -1, 5}, {-1, -1, 4}, {-1, -1, 3}, {-1, -1, 2}}, []dt.Graph_edge{{-1, -1, 2}, {-1, -1, 3}, {-1, -1, 4}, {-1, -1, 5}, {-1, -1, 6}}},
+		{[]dt.GraphEdge{{-1, -1, 6}, {-1, -1, 5}, {-1, -1, 4}, {-1, -1, 3}, {-1, -1, 2}}, []dt.GraphEdge{{-1, -1, 2}, {-1, -1, 3}, {-1, -1, 4}, {-1, -1, 5}, {-1, -1, 6}}},
 	}
 	flag := false
 	for _, c := range cases {
-		got := Merge_Sort(c.in)
+		got := MergeSort(c.in)
 		for i := 0; i < len(got)-1; i++ {
 			if got[i] != c.want[i] {
 				flag = true
@@ -28,7 +28,7 @@ func TestSort(t *testing.T) {
 
 // func TestKruskals(t *testing.T) {
 // 	cases := []struct {
-// 		in [][]float64, want []dt.Graph_edge
+// 		in [][]float64, want []dt.GraphEdge
 // 	}{
 // 		{
 // 			[][]float64{
@@ -42,12 +42,12 @@ func TestSort(t *testing.T) {
 // 				[]float64{zz,zz,zz,zz,zz,zz,1,0,7},
 // 				[]float64{zz,zz,2,zz,zz,zz,6,zz,0}
 // 		}
-// 			[]dt.Graph_edge{{-1, -1, 2}, {-1, -1, 3}, {-1, -1, 4}, {-1, -1, 5}, {-1, -1, 6}}
+// 			[]dt.GraphEdge{{-1, -1, 2}, {-1, -1, 3}, {-1, -1, 4}, {-1, -1, 5}, {-1, -1, 6}}
 // 		},
 // 	}
 // 	flag := false
 // 	for _, c := range cases {
-// 		got := Merge_Sort(c.in)
+// 		got := MergeSort(c.in)
 // 		for i := 0; i < len(got)-1; i++ {
 // 			if got[i] != c.want[i] {
 // 				flag = true

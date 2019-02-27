@@ -11,45 +11,45 @@ import (
   "strings"
 )
 
-// get_indices is responsible to parse through the form response given by form.html to
+// getIndices is responsible to parse through the form response given by form.html to
 // find the user queried locations. The parsed data will consist of locations which
-// in turn will be converted to indices, each representing their index in the Dist_matrix.
+// in turn will be converted to indices, each representing their index in the DistMatrix.
 //
 // Input: loc [ user queried locations from the form ] i.e. map[string][]string
 // Output: indices [ array of user queries locations in indices ] i.e. []int
-func get_indices(loc map[string][]string) []int {
+func getIndices(loc map[string][]string) []int {
   var count = len(loc)
   count = count / 2 // we dont need the key value of the field. only its value suffices
 
   var indices = make([]int, 1, 1)
-  var loc_key_raw = loc["form_data[0][value]"][0]
-  loc_key_raw = strings.ToLower(loc_key_raw)
-  result := strings.Split(loc_key_raw, " ")
+  var locKeyRaw = loc["form_data[0][value]"][0]
+  locKeyRaw = strings.ToLower(locKeyRaw)
+  result := strings.Split(locKeyRaw, " ")
   var length = len(result)
 
-  var loc_key strings.Builder
+  var locKey strings.Builder
   for i := 0; i < length; i++ {
-    fmt.Fprintf(&loc_key, result[i])
+    fmt.Fprintf(&locKey, result[i])
   }
 
-  indices[0] = server.Locations()[loc_key.String()].Index
+  indices[0] = server.Locations()[locKey.String()].Index
 
   for i := 2; i <= count; i++ {
     var key strings.Builder
     fmt.Fprintf(&key, "form_data[%d][value]", i-1)
-    loc_key_raw = loc[key.String()][0]
-    loc_key_raw = strings.ToLower(loc_key_raw)
+    locKeyRaw = loc[key.String()][0]
+    locKeyRaw = strings.ToLower(locKeyRaw)
 
-    result = strings.Split(loc_key_raw, " ")
+    result = strings.Split(locKeyRaw, " ")
     length = len(result)
-    loc_key.Reset()
+    locKey.Reset()
 
     for i := 0; i < length; i++ {
-      fmt.Fprintf(&loc_key, result[i])
+      fmt.Fprintf(&locKey, result[i])
     }
 
-    var loc_ind = server.Locations()[loc_key.String()].Index
-    indices = append(indices, loc_ind)
+    var locInd = server.Locations()[locKey.String()].Index
+    indices = append(indices, locInd)
   }
 
   return indices
@@ -91,14 +91,14 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
       fmt.Fprintf(w, "ParseForm() err: %v", err)
       return
     }
-    var indices = get_indices(r.Form)
+    var indices = getIndices(r.Form)
     sort.Ints(indices) // sort the locations indices in increasing order
-    best_path := tsp.Get_best_path(server.Dist_slice_matrix, indices)
+    var bestPath = tsp.GetBestPath(server.DistSliceMatrix, indices)
     // store the best path
-    var length = len(best_path)
+    var length = len(bestPath)
     var path = make([]string, 0)
     for i := 0; i < length; i++ {
-      path = append(path, server.Loc_Keys()[best_path[i]])
+      path = append(path, server.locKeys()[bestPath[i]])
     }
 
     // write with JSON parsable string syntax
@@ -121,7 +121,7 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
 
 func main() {
   // testing - harsha
-  server.Create_dist_matrix()
+  server.CreateDistMatrix()
 
   // web app
   addr, err := determineListenAddress()

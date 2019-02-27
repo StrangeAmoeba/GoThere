@@ -2,26 +2,26 @@ package tsp
 
 import (
   // "fmt"
-  dt "concurrency-9/data_types"
+  dt "concurrency-9/dataTypes"
   "sync"
 )
 
 // this will take input the matrix coming in from the API
 // and convert it into an adjacency list (input type matrix [][]float64)
 
-var number_of_vertices int
+var numberOfVertices int
 
-// Get_adjacency_list converts a graph in the form of an adjacency matrix to
+// GetAdjacencyList converts a graph in the form of an adjacency matrix to
 // an adjacency list.
 //
-//   Input: matrix i.e. [][]float64
-//   Output: al i.e. [][]data_types.Graph_edge
-func Get_adjacency_list(matrix [][]float64) [][]dt.Graph_edge {
-  var al [][]dt.Graph_edge
+// Input: matrix i.e. [][]float64
+// Output: al i.e. [][]dataTypes.GraphEdge
+func GetAdjacencyList(matrix [][]float64) [][]dt.GraphEdge {
+  var al [][]dt.GraphEdge
   for i := 0; i < len(matrix); i++ {
-    temp := make([]dt.Graph_edge, number_of_vertices)
+    temp := make([]dt.GraphEdge, numberOfVertices)
     for j := 0; j < len(matrix[i]); j++ {
-      temp[j] = dt.Graph_edge{i, j, matrix[i][j]}
+      temp[j] = dt.GraphEdge{i, j, matrix[i][j]}
     }
     al = append(al, temp)
   }
@@ -44,9 +44,9 @@ func find(subsets []subset, i int) int {
 // Union computes the union of two disjoint sets, this particular implementation
 // uses parallelisation of any adjacent calls to improve speed.
 //
-//   Input: subsets, the list of all subsets, i.e. []subset
-//       x, y,representative elements of subsets, i.e. int.
-//   Output: No Output, union stored in subsets.
+// Input: subsets, the list of all subsets, i.e. []subset
+//  x, y,representative elements of subsets, i.e. int.
+// Output: No Output, union stored in subsets.
 func Union(subsets []subset, x int, y int) {
 
   // concurrently find the roots of both the
@@ -78,21 +78,21 @@ func Union(subsets []subset, x int, y int) {
 // , internally it is converted to an adjacency list. This is a parallelised form of Kruskal's algorithm,
 // where any adjacent calls are made parallely.
 //
-//  Input: matrix i.e. [][]float64.
-//  Output: results i.e. data_types.Graph_edge.
-func Kruskals(matrix [][]float64) []dt.Graph_edge {
-  number_of_vertices = len(matrix)
-  V := number_of_vertices
-  var results []dt.Graph_edge
-  s := Get_adjacency_list(matrix)
+// Input: matrix i.e. [][]float64.
+// Output: results i.e. dataTypes.GraphEdge.
+func Kruskals(matrix [][]float64) []dt.GraphEdge {
+  numberOfVertices = len(matrix)
+  V := numberOfVertices
+  var results []dt.GraphEdge
+  s := GetAdjacencyList(matrix)
   e := 0 // number of edges in results
-  var edges []dt.Graph_edge
+  var edges []dt.GraphEdge
   for i := 0; i < len(s); i++ {
     for j := i + 1; j < len(s[i]); j++ {
-      edges = append(edges, dt.Graph_edge{i, j, (s[i][j].Weight + s[j][i].Weight) / 2.0})
+      edges = append(edges, dt.GraphEdge{i, j, (s[i][j].Weight + s[j][i].Weight) / 2.0})
     }
   }
-  edges = Merge_Sort(edges)
+  edges = MergeSort(edges)
   var subsets []subset
   for i := 0; i < V; i++ {
     subsets = append(subsets, subset{i, 0})
@@ -100,7 +100,7 @@ func Kruskals(matrix [][]float64) []dt.Graph_edge {
   i := 0
   var wg sync.WaitGroup
   for e < V-1 {
-    next_edge := edges[i]
+    nextEdge := edges[i]
     i++
     var x, y int
 
@@ -109,16 +109,16 @@ func Kruskals(matrix [][]float64) []dt.Graph_edge {
     wg.Add(2)
     go func() {
       defer wg.Done()
-      x = find(subsets, next_edge.Src)
+      x = find(subsets, nextEdge.Src)
     }()
     go func() {
       defer wg.Done()
-      y = find(subsets, next_edge.Dst)
+      y = find(subsets, nextEdge.Dst)
     }()
     wg.Wait()
 
     if x != y {
-      results = append(results, next_edge)
+      results = append(results, nextEdge)
       e++
       Union(subsets, x, y)
     }
