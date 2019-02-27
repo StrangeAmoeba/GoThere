@@ -93,9 +93,7 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
     }
     var indices = get_indices(r.Form)
     sort.Ints(indices) // sort the locations indices in increasing order
-    var dist_slice_matrix = server.MatToDynMat()
-    best_path := tsp.Get_best_path(dist_slice_matrix, indices)
-
+    best_path := tsp.Get_best_path(server.Dist_slice_matrix, indices)
     // store the best path
     var length = len(best_path)
     var path = make([]string, 0)

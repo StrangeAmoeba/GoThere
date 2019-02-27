@@ -13,6 +13,7 @@ import (
 )
 
 var Dist_matrix = [35][35]float64{}
+var Dist_slice_matrix = [][]float64{}
 var avg_speed = 15.5 // mps
 var updated_matrix = false
 
@@ -29,6 +30,7 @@ func Create_dist_matrix() {
 
   // if matrix has been updated this day, return
   if updated_matrix == true {
+    Dist_slice_matrix = matToDynMat()
     return
   }
 
@@ -68,18 +70,20 @@ func Create_dist_matrix() {
   // fall back to old log incase google api is down or resulted in an error
   if updated_matrix == true {
     check_matrix_file("old")
+    Dist_slice_matrix = matToDynMat()
     return
   }
 
   write_matrix_file()
+  Dist_slice_matrix = matToDynMat()
 }
 
-// MatToDynMat is a helper function which converts the 35*35 matrix (Dist_matrix)
+// matToDynMat is a helper function which converts the 35*35 matrix (Dist_matrix)
 // to a dynamic [][]float64 matrix in accordance with kruskals requirement.
 //
 // Input: None
 // Output: weight[ weight of edge between the two locations ] i.e. float64
-func MatToDynMat() [][]float64 {
+func matToDynMat() [][]float64 {
   var mat [][]float64
 
   for i := 0; i < 35; i++ {
