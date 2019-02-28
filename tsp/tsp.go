@@ -2,7 +2,7 @@ package tsp
 
 import (
 	dt "concurrency-9/dataTypes"
-	// "fmt"
+	"fmt"
 	"math"
 )
 
@@ -61,6 +61,18 @@ func CreateDestinationMatrix(matrix [][]float64, destinations []int) [][]float64
 	return temp1
 }
 
+func unique(intSlice []int) []int {
+	keys := make(map[int]bool)
+	list := []int{}
+	for _, entry := range intSlice {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list = append(list, entry)
+		}
+	}
+	return list
+}
+
 // GetBestPath, takes in a graph, a subset of nodes of the same graph and gives the ideal
 // path to visit all of them in the least expensive way.
 //
@@ -68,7 +80,8 @@ func CreateDestinationMatrix(matrix [][]float64, destinations []int) [][]float64
 // Output: bestPath i.e. []int
 func GetBestPath(matrix [][]float64, destinations []int) []int {
 	// fmt.Printf("%v", destinations)
-	matrix = dijkstras(matrix)
+	matrix, internalNodes := Dijkstras(matrix)
+	// fmt.Println(internalNodes)
 	mst := GetMST(matrix, destinations)
 	// makeTreeFromEdges(mst, len(destinations))
 	pw := preOrderWalk(mst)
@@ -76,5 +89,13 @@ func GetBestPath(matrix [][]float64, destinations []int) []int {
 	for i := 0; i < len(pw); i++ {
 		bestPath = append(bestPath, destinations[pw[i]])
 	}
-	return bestPath
+	var bestPathWithInternalNodes []int
+	for i := 0; i < len(bestPath)-1; i++ {
+		bestPathWithInternalNodes = append(bestPathWithInternalNodes, internalNodes[bestPath[i]][bestPath[i+1]]...)
+		if i != len(bestPath)-2 {
+			bestPathWithInternalNodes = bestPathWithInternalNodes[0 : len(bestPathWithInternalNodes)-1]
+		}
+	}
+	fmt.Println(bestPath, unique(bestPathWithInternalNodes))
+	return bestPathWithInternalNodes
 }
