@@ -8,6 +8,11 @@ import (
 var done []int
 var tr []int
 
+// preOrderWalk converts the mst into a suitable form to
+// get its pre order walkm by calling preOrderNode
+//
+//	Input: edges, the list of edges in the mst i.e. []dataTypes.GraphEdge
+//	Output: tr, the preorder walk of the mst i.e. []int
 func preOrderWalk(edges []dt.GraphEdge) []int {
 	newTr := make([]int, 0)
 	newDone := make([]int, 0)
@@ -22,6 +27,11 @@ func preOrderWalk(edges []dt.GraphEdge) []int {
 	return tr
 }
 
+// findInSlice finds if a given element belongs to a given slice
+//
+//  Input: toFind, the element we want to find i.e. int
+//		  slice, the slice we want to search in i.e. []int
+//  Output: bool, representing existence of the element in the slice.
 func findInSlice(toFind int, slice []int) bool {
 	for i := 0; i < len(slice); i++ {
 		if slice[i] == toFind {
@@ -31,6 +41,12 @@ func findInSlice(toFind int, slice []int) bool {
 	return false
 }
 
+// preOrderNode is a reecursive function which gets the preorder walk of
+// the given node.
+//
+// Input: edges, the edges in the mst i.e. []dataTypes.GraphEdge
+// 	   node, the node we want to compute preoderwalk of i.e. int
+// Output: trD, the preorderwalk rooted at the node i.e. []int
 func preOrderNode(edges []dt.GraphEdge, node int) []int {
 	tr = append(tr, node)
 	done = append(done, node)

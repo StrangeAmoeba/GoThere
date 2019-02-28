@@ -61,6 +61,10 @@ func CreateDestinationMatrix(matrix [][]float64, destinations []int) [][]float64
 	return temp1
 }
 
+// unique removes duplicates, keeping just the first entry of an element in a slice
+//
+// Input: intSlice, the slice we want to remove duplicates from i.e. []int
+// Output: list, the slice the duplicates removed i.e. []int
 func unique(intSlice []int) []int {
 	keys := make(map[int]bool)
 	list := []int{}
