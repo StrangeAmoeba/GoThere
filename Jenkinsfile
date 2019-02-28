@@ -3,6 +3,7 @@
 pipeline {
     agent none
     stages {
+        def image
         stage('Test and Build') {
             agent {
                 docker {
@@ -27,7 +28,6 @@ pipeline {
             agent any
             steps {
                 script {
-                    def image
                     image = docker.build("strangeamoeba/concurrency9")
                 }
             }
