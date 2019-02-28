@@ -7,8 +7,6 @@ This project is a partial fullfillment for CS2433 (Principles of Programming Lan
 ## Dependencies
 
 ## Instructions
-
-
 ## Contributor Instructions
 
 Run the following command to get the tools that run during pre-commit checks
@@ -19,5 +17,5 @@ Run the following command to get the tools that run during pre-commit checks
 
 Sai Harsha Kottapalli  
 Sagar Jain  
-Tanmay Renugunta  
 Bogga Srinivas
+Tanmay Renugunta  
