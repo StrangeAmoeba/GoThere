@@ -83,6 +83,9 @@ func unique(intSlice []int) []int {
 // Input: matrix, the full graph i.e. [][]float64, destinations, subset of nodes i.e. []int
 // Output: bestPath i.e. []int
 func GetBestPath(matrix [][]float64, destinations []int) []int {
+	if len(destinations) == 1 {
+		return []int{destinations[0]}
+	}
 	// fmt.Printf("%v", destinations)
 	matrix, internalNodes := Dijkstras(matrix)
 	// fmt.Println(internalNodes)
