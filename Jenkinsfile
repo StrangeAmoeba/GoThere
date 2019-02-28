@@ -29,7 +29,7 @@ pipeline {
                     def image
                     image = docker.build("strangeamoeba/concurrency9")
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        image.push("concurrency9/${BRANCH_NAME}:${env.BUILD_NUMBER}")
+                        image.push("${BRANCH_NAME}-${env.BUILD_NUMBER}")
                         image.push("latest")
                     }
                 }   
