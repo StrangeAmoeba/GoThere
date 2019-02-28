@@ -16,12 +16,8 @@ func echo(w http.ResponseWriter, r *http.Request) {
 }
 
 func restartApp(w http.ResponseWriter, r *http.Request) {
-	// out, err := exec.Command("bash", "-c", "ps -e | grep -w 'go'| awk '{print $1}'").Output()
-	out, err := exec.Command("bash", "-c", "kill $(lsof -t -i :9000)").Output()
-	if err != nil {
-		log.Fatal(err)
-	}
-	out, err = exec.Command("deploy-script").Output()
+	out, err := exec.Command("deploy-script").Output()
+	fmt.Println("2")
 	if err != nil {
 		log.Fatal(err)
 	}
