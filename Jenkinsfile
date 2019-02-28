@@ -15,7 +15,6 @@ pipeline {
                 GOPATH = "${WORKSPACE}/../.."
             }
             steps {
-                checkout scm
                 sh 'go version'
                 sh 'go clean -cache'
                 sh 'CGO_ENABLED=0 go test ./...'
@@ -30,7 +29,7 @@ pipeline {
                     def image
                     image = docker.build("strangeamoeba/concurrency9")
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        image.push("${env.BUILD_NUMBER}")
+                        image.push("concurrency9/${BRANCH_NAME}:${env.BUILD_NUMBER}")
                         image.push("latest")
                     }
                 }   
