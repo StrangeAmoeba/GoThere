@@ -18,7 +18,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 }
 
 type myInfo struct {
-	ID   number `json:"id"`
+	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
