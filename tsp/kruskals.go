@@ -33,6 +33,14 @@ type subset struct {
   parent, rank int
 }
 
+// find gets the representative element of the set to which a
+// particular element belongs.
+//
+//  Input: subsets, set of all the subsets i.e. []subset
+//         i, the element whose representative element we
+//         are looking for
+//  Output: the representative element of the set to which
+//          i belongs.
 func find(subsets []subset, i int) int {
   if subsets[i].parent != i {
     subsets[i].parent = find(subsets, subsets[i].parent)

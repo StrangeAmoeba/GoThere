@@ -1,0 +1,23 @@
+#!/bin/sh
+
+TEST_PASSING=true
+GO_FILES=$(git diff --name-only --cached | grep .go)
+
+for file in $GO_FILES; do
+    goimports -w $file
+    echo "Resolving Imports...."
+
+    golint "--set_exit_status" $file
+    if [[ $? == 1 ]]; then 
+        TEST_PASSING=false
+    fi
+done
+
+if ! $TEST_PASSING; then
+    printf "Tests failed\n"
+    exit 1
+else
+    printf "Tests successful\n"
+fi
+
+exit 0
