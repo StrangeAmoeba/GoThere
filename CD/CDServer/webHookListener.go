@@ -22,8 +22,11 @@ func restartApp(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	var info myInfo
 	body, err := ioutil.ReadAll(r.Body)
-	fmt.Println(body)
+	json.Unmarshal(bytesBody, &info)
+	// fmt.Println(body)
+	fmt.Println(info)
 	w.WriteHeader(200)
 }
 func StartServer() {
