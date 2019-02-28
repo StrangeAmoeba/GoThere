@@ -17,6 +17,11 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(message))
 }
 
+type myInfo struct {
+	ID   number `json:"id"`
+	Name string `json:"name"`
+}
+
 func restartApp(w http.ResponseWriter, r *http.Request) {
 	_, err := exec.Command("deploy-script").Output()
 	// fmt.Println("2")
@@ -25,7 +30,7 @@ func restartApp(w http.ResponseWriter, r *http.Request) {
 	}
 	var info myInfo
 	body, err := ioutil.ReadAll(r.Body)
-	json.Unmarshal(bytesBody, &info)
+	json.Unmarshal(body, &info)
 	// fmt.Println(body)
 	fmt.Println(info)
 	w.WriteHeader(200)
