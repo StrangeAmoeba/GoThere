@@ -1,19 +1,25 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    agent none
+    agent {
+        docker {
+            image 'golang:1.12-alpine'
+            customWorkspace "workspace/${BRANCH_NAME}/go/src/concurrency-9"
+        }
+    }
     environment {
         XDG_CACHE_HOME = "/tmp/.cache"
         GOPATH = "${WORKSPACE}/../.."
     }
     stages {
-        stage('Test and Build') {
-            agent {
-                docker {
-                    image 'golang:1.12-alpine'
-                    customWorkspace "workspace/${BRANCH_NAME}/go/src/concurrency-9"
-                }
+        stage('Init') {
+            steps {
+                sh 'sudo apk add docker'
+                sh 'service docker start'
+                checkout scm
             }
+        }
+        stage('Test and Build') {
             steps {
                 checkout scm
                 sh 'go version'
@@ -24,7 +30,6 @@ pipeline {
             }
         }
         stage('Build Image') {
-            agent any
             steps {
                 script {
                     def image
@@ -33,7 +38,6 @@ pipeline {
             }
         }
         stage('Push Image') {
-            agent any
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
