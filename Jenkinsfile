@@ -3,8 +3,7 @@
 pipeline {
     agent none
     stages {
-        def image
-        stage('Test and Build') {
+        stage('Test') {
             agent {
                 docker {
                     image 'golang:1.12-alpine'
@@ -24,23 +23,17 @@ pipeline {
                 sh 'echo "Tests Passed"'
             }
         }
-        stage('Build Image') {
+        stage('Build and Push Image') {
             agent any
             steps {
                 script {
+                    def image
                     image = docker.build("strangeamoeba/concurrency9")
-                }
-            }
-        }
-        stage('Push Image') {
-            agent any
-            steps {
-                script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                         image.push("${env.BUILD_NUMBER}")
                         image.push("latest")
                     }
-                }
+                }   
             }
         }
     }
