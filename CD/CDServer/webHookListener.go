@@ -21,7 +21,8 @@ func restartApp(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("output is %s\n", r)
+	body, err := ioutil.ReadAll(r.Body)
+	fmt.Println(body)
 	w.WriteHeader(200)
 }
 func StartServer() {
