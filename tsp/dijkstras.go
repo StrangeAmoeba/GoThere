@@ -34,13 +34,16 @@ func FindMinVertex(weights []float64, tracker []bool) int {
 // SingleSourceDijkstras is a helper function for the dijkstras function
 // The function returns the least weight for all paths from a single source vertex
 // to all the other vertices in graph.
-// Input: A [][]float64 slice, representing the Adjacency Matrix for the graph
-//        A single int, representing the source vertex
-// Output: A []float64 slice containg the smallest weights for all paths from the source
-//         vertex to other vertices
-func SingleSourceDijkstras(matrix [][]float64, src int) []float64 {
+//
+// Input:   A [][]float64 slice, representing the Adjacency Matrix for the graph
+//          A single int, representing the source vertex
+// Outputs: A []float64 slice containg the smallest weights for all paths from the source
+//          vertex to other vertices
+//          A 2D slice containing the minimum paths from vertex i to j i.e. [][]int
+func SingleSourceDijkstras(matrix [][]float64, src int) ([]float64, [][]int) {
 	var tracker []bool = make([]bool, len(matrix))
 	var minWeights []float64 = make([]float64, len(matrix))
+	var minPath [][]int = make([][]int, len(matrix))
 
 	for i := range tracker {
 		tracker[i] = false
@@ -48,6 +51,7 @@ func SingleSourceDijkstras(matrix [][]float64, src int) []float64 {
 	}
 
 	minWeights[src] = 0
+	minPath[src] = append(minPath[src], src)
 
 	for i := 0; i < len(matrix)-1; i++ {
 		var minVertex int = FindMinVertex(minWeights, tracker)
@@ -59,20 +63,25 @@ func SingleSourceDijkstras(matrix [][]float64, src int) []float64 {
 				minWeights[minVertex] != MaxFloat &&
 				minWeights[minVertex]+matrix[minVertex][j] < minWeights[j] {
 				minWeights[j] = minWeights[minVertex] + matrix[minVertex][j]
+				minPath[j] = append(minPath[minVertex], j)
 			}
 		}
 	}
 
-	return minWeights
+	return minWeights, minPath
 }
 
-// dijkstras parses a graph, and returns the least weight of all the paths between
+// Dijkstras parses a graph, and returns the least weight of all the paths between
 // any two vertices in the graph
-// Input: A [][]float64 slice, representing the Adjacency Matrix of the graph
-// Output: A [][]float64 slice, which contains the minimum weight for the shortest path
-//         between two vertices
-func dijkstras(matrix [][]float64) [][]float64 {
+//
+// Input:   A [][]float64 slice, representing the Adjacency Matrix of the graph
+// Outputs: A [][]float64 slice, which contains the minimum weight for the shortest path
+//          between two vertices
+//          A 3D int slice, representing the mininimum paths b/w any two vertices of the
+//          graph i.e. [][][]int
+func Dijkstras(matrix [][]float64) ([][]float64, [][][]int) {
 	var minGraph [][]float64 = make([][]float64, len(matrix))
+	var minPaths [][][]int = make([][][]int, len(matrix))
 	var nodeWg sync.WaitGroup
 
 	nodeWg.Add(len(matrix))
@@ -80,10 +89,12 @@ func dijkstras(matrix [][]float64) [][]float64 {
 	for src := range matrix {
 		go func(src int) {
 			var minWeights []float64 = make([]float64, len(matrix))
+			var minPath [][]int = make([][]int, len(matrix))
 
-			minWeights = SingleSourceDijkstras(matrix, src)
+			minWeights, minPath = SingleSourceDijkstras(matrix, src)
 
 			minGraph[src] = minWeights
+			minPaths[src] = minPath
 
 			nodeWg.Done()
 		}(src)
@@ -91,5 +102,5 @@ func dijkstras(matrix [][]float64) [][]float64 {
 
 	nodeWg.Wait()
 
-	return minGraph
+	return minGraph, minPaths
 }
