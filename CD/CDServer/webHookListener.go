@@ -16,12 +16,12 @@ func echo(w http.ResponseWriter, r *http.Request) {
 }
 
 func restartApp(w http.ResponseWriter, r *http.Request) {
-	out, err := exec.Command("deploy-script").Output()
-	fmt.Println("2")
+	_, err := exec.Command("deploy-script").Output()
+	// fmt.Println("2")
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("output is %s\n", out)
+	fmt.Printf("output is %s\n", r)
 	w.WriteHeader(200)
 }
 func StartServer() {
