@@ -16,8 +16,7 @@ $( "#go-form" ).submit(function( event ) {
 
     // loc_obj consists of info, lat, long of a place respectively.
     initMap(loc_obj);
-    console.log("debug", loc_obj);
-    var content = data
-    $("#result").empty().append(content);
+    // var content = data // debugging
+    // $("#result").empty().append(content); // debugging
   });
 });

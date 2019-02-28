@@ -93,9 +93,10 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
     }
 
     var indices = getIndices(r.Form)
+    fmt.Println("ind", indices)
     sort.Ints(indices) // sort the locations indices in increasing order
     var bestPath = tsp.GetBestPath(server.DistSliceMatrix, indices)
-
+    fmt.Println("da path", bestPath)
     // keys to get the locations - Lat and Long, from given index
     keys := make([]string, 0)
     for k := range server.Locations() {
