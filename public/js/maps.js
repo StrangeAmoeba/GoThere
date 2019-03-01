@@ -9,8 +9,6 @@ function initMap(loc_obj) {
 
   var infowindow = new google.maps.InfoWindow({});
 
-  console.log("dedbb", loc_obj, loc_obj["path"].length)
-
   var marker, i, length = loc_obj["path"].length;
 
   for (i = 0; i < length; i++) {

@@ -7,8 +7,6 @@ This project is a partial fullfillment for CS2433 (Principles of Programming Lan
 ## Dependencies
 
 ## Instructions
-
-
 ## Contributor Instructions
 
 Run the following command to get the tools that run during pre-commit checks
@@ -20,5 +18,5 @@ go get golang.org/x/tools/cmd/goimports && go get golang.org/x/lint/golint && gi
 
 Sai Harsha Kottapalli  
 Sagar Jain  
-Tanmay Renugunta  
 Bogga Srinivas
+Tanmay Renugunta  

@@ -5,7 +5,7 @@ $(document).ready(function(){
         var addto = "#loc" + next;
         var addRemove = "#loc" + (next);
         next = next + 1;
-        var newIn = '<select id="loc' + next + '" name="loc' + next + '" class="form-control">';
+        var newIn = '<select id="loc' + next + '" name="loc' + next + '" class="loc-dropdown">';
         newIn +=
         '<option selected>Choose...</option>\
             <option>Ahmedguda</option>\

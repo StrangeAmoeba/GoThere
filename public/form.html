@@ -5,63 +5,77 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="public/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="public/styles/style.css">
+    <!-- Bootstrap CSS and dependent ones-->
+    <link rel="stylesheet" href="public/css/bootstrap.min.css">
+    <!-- Poppins font -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600,700" rel="stylesheet">
+    <!-- local external stylesheet -->
+    <link rel="stylesheet" href="public/css/main.css">
 
     <title>Go Locations</title>
   </head>
   <body>
-    <h1>Enter the locations to be visited!</h1>
-    <form method="POST" id="go-form">
-      <div class="form-row">
-        <div id="loc" class="form-group col-md-4">
-          <label for="loc1">Place</label>
-          <select id="loc1" name="loc1" class="form-control">
-            <option selected>Choose...</option>
-            <option>Ahmedguda</option>
-            <option>Allwyn Colony</option>
-            <option>Ameenpur</option>
-            <option>Ameerpet</option>
-            <option>Bachupally</option>
-            <option>Begumpet</option>
-            <option>Borabanda</option>
-            <option>Bowenpally</option>
-            <option>Bhel</option>
-            <option>Brundavan Colony</option>
-            <option>Chandanagar</option>
-            <option>Fatehnagar</option>
-            <option>Gachibowli</option>
-            <option>Gautam Nagar</option>
-            <option>Hafeezpet</option>
-            <option>Hitec City</option>
-            <option>Hydernagar</option>
-            <option>Jubilee Hills</option>
-            <option>Kandi</option>
-            <option>Kompally</option>
-            <option>Kondapur</option>
-            <option>Kukatpally</option>
-            <option>Lingampally</option>
-            <option>Madhapur</option>
-            <option>Miyapur</option>
-            <option>Nallagandla</option>
-            <option>Nizampet</option>
-            <option>Patancheru</option>
-            <option>Patel Nagar</option>
-            <option>Sai Nagar</option>
-            <option>Sanath Nagar</option>
-            <option>Sangareddy</option>
-            <option>Shamshiguda</option>
-            <option>Siva Nagar</option>
-            <option>Yeddumailaram</option>
-          </select>
-          <button id="add" class="btn add-more" type="button">+</button>
-        </div>
+    <div class="main">
+      <div id="map"></div>
+
+      <div class="wrap-form">
+        <form method="POST" id="go-form">
+          <span id="form-title">Go There!</span>
+          <div class="form-row">
+            <div id="loc" class="form-group form-inline">
+              <span class="place-label">Places</span>
+              <select id="loc1" name="loc1" class="loc-dropdown">
+                <option selected>Choose...</option>
+                <option>Ahmedguda</option>
+                <option>Allwyn Colony</option>
+                <option>Ameenpur</option>
+                <option>Ameerpet</option>
+                <option>Bachupally</option>
+                <option>Begumpet</option>
+                <option>Borabanda</option>
+                <option>Bowenpally</option>
+                <option>Bhel</option>
+                <option>Brundavan Colony</option>
+                <option>Chandanagar</option>
+                <option>Fatehnagar</option>
+                <option>Gachibowli</option>
+                <option>Gautam Nagar</option>
+                <option>Hafeezpet</option>
+                <option>Hitec City</option>
+                <option>Hydernagar</option>
+                <option>Jubilee Hills</option>
+                <option>Kandi</option>
+                <option>Kompally</option>
+                <option>Kondapur</option>
+                <option>Kukatpally</option>
+                <option>Lingampally</option>
+                <option>Madhapur</option>
+                <option>Miyapur</option>
+                <option>Nallagandla</option>
+                <option>Nizampet</option>
+                <option>Patancheru</option>
+                <option>Patel Nagar</option>
+                <option>Sai Nagar</option>
+                <option>Sanath Nagar</option>
+                <option>Sangareddy</option>
+                <option>Shamshiguda</option>
+                <option>Siva Nagar</option>
+                <option>Yeddumailaram</option>
+              </select>
+              <button id="add" class="btn add-more" type="button">+</button>
+            </div>
+          </div>
+          <div class="form-btn-container" type="submit">
+              <div class="wrap-form-btn">
+                  <div class="form-bgbtn"></div>
+                  <button class="form-btn">
+                      Go!
+                  </button>
+              </div>
+          </div>
+        </form>
       </div>
-      <button type="submit" class="btn btn-primary">Go!</button>
-    </form>
-    <div id="result"></div>
-    <div id="map"></div>
+    </div>
     <!-- jQuery first(not slim), then Popper.js, then Bootstrap JS -->
     <script src="public/js/jquery-3.3.1.min.js"></script>
     <script src="public/js/popper.min.js"></script>

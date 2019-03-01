@@ -24,6 +24,9 @@ pipeline {
         }
         stage('Build and Push Image') {
             agent any
+            when {
+                branch 'master'
+            }
             steps {
                 script {
                     def image
@@ -33,6 +36,11 @@ pipeline {
                         image.push("latest")
                     }
                 }   
+            }
+            post {
+                success {
+                    sh "curl -X POST 'http://ec2-54-166-219-68.compute-1.amazonaws.com:1337/restart'"
+                }
             }
         }
     }
