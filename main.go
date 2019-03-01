@@ -94,7 +94,7 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
 
     var indices = getIndices(r.Form)
 
-    sort.Ints(indices) // sort the locations indices in increasing order
+    // sort.Ints(indices) // sort the locations indices in increasing order
     var bestPath, route_helper = tsp.GetBestPath(server.DistSliceMatrix, indices)
 
     // keys to get the locations - Lat and Long, from given index

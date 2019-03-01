@@ -13,7 +13,7 @@ var tr []int
 //
 //	Input: edges, the list of edges in the mst i.e. []dataTypes.GraphEdge
 //	Output: tr, the preorder walk of the mst i.e. []int
-func preOrderWalk(edges []dt.GraphEdge) []int {
+func preOrderWalk(edges []dt.GraphEdge, firstDst int) []int {
 	newTr := make([]int, 0)
 	newDone := make([]int, 0)
 	tr = newTr
@@ -23,7 +23,7 @@ func preOrderWalk(edges []dt.GraphEdge) []int {
 		edgeSym = append(edgeSym, dt.GraphEdge{edges[i].Dst, edges[i].Src, edges[i].Weight})
 		edgeSym = append(edgeSym, edges[i])
 	}
-	tr := preOrderNode(edgeSym, 0)
+	tr := preOrderNode(edgeSym, firstDst)
 	return tr
 }
 

@@ -4,6 +4,7 @@ import (
 	dt "concurrency-9/dataTypes"
 	"fmt"
 	"math"
+	"sort"
 )
 
 const numberOfNodes = 35
@@ -77,12 +78,28 @@ func unique(intSlice []int) []int {
 	return list
 }
 
+func getPos(intSlice []int, toFind int) int {
+
+	for i := 0; i < len(intSlice); i++ {
+		if intSlice[i] == toFind {
+			return i
+		}
+	}
+	return 0
+}
+
 // GetBestPath, takes in a graph, a subset of nodes of the same graph and gives the ideal
 // path to visit all of them in the least expensive way.
 //
 // Input: matrix, the full graph i.e. [][]float64, destinations, subset of nodes i.e. []int
 // Output: bestPath i.e. []int
 func GetBestPath(matrix [][]float64, destinations []int) ([]int, []int) {
+	destinations = unique(destinations)
+	firstDst := destinations[0]
+	fmt.Println(firstDst)
+	sort.Ints(destinations)
+	firstDst = getPos(destinations, firstDst)
+	fmt.Println(firstDst)
 	if len(destinations) == 1 {
 		return []int{destinations[0]}, []int{destinations[0]}
 	}
@@ -91,7 +108,7 @@ func GetBestPath(matrix [][]float64, destinations []int) ([]int, []int) {
 	// fmt.Println(internalNodes)
 	mst := GetMST(matrix, destinations)
 	// makeTreeFromEdges(mst, len(destinations))
-	pw := preOrderWalk(mst)
+	pw := preOrderWalk(mst, firstDst)
 	var bestPath []int
 	for i := 0; i < len(pw); i++ {
 		bestPath = append(bestPath, destinations[pw[i]])
