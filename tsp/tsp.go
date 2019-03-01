@@ -113,13 +113,13 @@ func GetBestPath(matrix [][]float64, destinations []int) ([]int, []int) {
 	for i := 0; i < len(pw); i++ {
 		bestPath = append(bestPath, destinations[pw[i]])
 	}
-	var bestPathWithInternalNodes []int
+	var routeHelpers []int
+	var appendTemp []int
 	for i := 0; i < len(bestPath)-1; i++ {
-		bestPathWithInternalNodes = append(bestPathWithInternalNodes, internalNodes[bestPath[i]][bestPath[i+1]]...)
-		if i != len(bestPath)-2 {
-			bestPathWithInternalNodes = bestPathWithInternalNodes[0 : len(bestPathWithInternalNodes)-1]
-		}
+		appendTemp = internalNodes[bestPath[i]][bestPath[i+1]]
+		routeHelpers = append(routeHelpers, appendTemp[1:len(appendTemp)-1]...)
 	}
-	fmt.Println(bestPath, unique(bestPathWithInternalNodes))
-	return bestPath, bestPathWithInternalNodes
+	routeHelpers = unique(routeHelpers)
+	fmt.Println(bestPath, routeHelpers)
+	return bestPath, routeHelpers
 }
