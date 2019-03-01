@@ -39,7 +39,7 @@ pipeline {
             }
             post {
                 success {
-                    sh "curl -X POST 'http://ec2-54-166-219-68.compute-1.amazonaws.com:1337/restart'"
+                    sh "curl -X POST 'http://gothere.tk/restart'"
                 }
             }
         }
