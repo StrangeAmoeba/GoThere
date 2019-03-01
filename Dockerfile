@@ -10,6 +10,8 @@ RUN go get -d -v ./...
 
 RUN go install -v ./...
 
-EXPOSE 9000
+ENV PORT=80
+
+EXPOSE 80
 
 CMD ["concurrency-9"]
