@@ -101,7 +101,7 @@ func GetBestPath(matrix [][]float64, destinations []int) ([]int, []int) {
 		return []int{destinations[0]}, []int{destinations[0]}
 	}
 	// fmt.Printf("%v", destinations)
-	matrix, internalNodes := Dijkstras(matrix)
+	matrix, internalNodes := Dijkstra(matrix)
 	// fmt.Println(internalNodes)
 	mst := GetMST(matrix, destinations)
 	// makeTreeFromEdges(mst, len(destinations))
