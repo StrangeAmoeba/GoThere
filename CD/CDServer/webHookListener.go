@@ -1,6 +1,7 @@
 package CDServer
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -16,14 +17,22 @@ func echo(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(message))
 }
 
+type myInfo struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
+}
+
 func restartApp(w http.ResponseWriter, r *http.Request) {
 	_, err := exec.Command("deploy-script").Output()
 	// fmt.Println("2")
 	if err != nil {
 		log.Fatal(err)
 	}
+	var info myInfo
 	body, err := ioutil.ReadAll(r.Body)
-	fmt.Println(body)
+	json.Unmarshal(body, &info)
+	// fmt.Println(body)
+	fmt.Println(info)
 	w.WriteHeader(200)
 }
 func StartServer() {

@@ -24,6 +24,9 @@ pipeline {
         }
         stage('Build and Push Image') {
             agent any
+            when {
+                branch 'master'
+            }
             steps {
                 script {
                     def image
