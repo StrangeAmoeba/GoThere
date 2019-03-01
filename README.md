@@ -15,7 +15,7 @@ We have a two server architecture.
 On pushes to **master**, jenkins runs tests and builds. If successful an image of the built app is pushed to docker hub.
 The deployment server is also triggered which pulls this image from docker hub and runs the latest app live, ensuring CI and CD.
 
-![arch](https://cdn1.imggmi.com/uploads/2019/3/1/19c4c7ab4cd902ac9534b58df8eceb1e-full.png)
+![arch](https://raw.githubusercontent.com/IITH-SBJoshi/concurrency-9/master/Untitled%20Diagram.png?token=AkF859x4WX2XwjdTCV81LMFAakR4BUlyks5cgoejwA%3D%3D)
 
 ## Dependencies
 There are no third party go packages being used out of the ones in this repository.
