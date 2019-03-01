@@ -9,13 +9,13 @@ import (
   "strings"
 )
 
-// constructURL takes the origin and destination Vertices which consists of
+// ConstructURL takes the origin and destination Vertices which consists of
 // its latitude and longitude. We contruct a url with accordance to google api requirement
 // for parsing the json file which we will receive later on.
 //
-// Input: origin [ origin vertex ] i.e. dt.Vertex, destination [ destination vertex ] i.e. dt.Vertex
-// Output: url [ url link address ] i.e. string
-func constructURL(origin, dest dt.Vertex) string {
+//  Input: origin [ origin vertex ] i.e. dt.Vertex, destination [ destination vertex ] i.e. dt.Vertex
+//  Output: url [ url link address ] i.e. string
+func ConstructURL(origin, dest dt.Vertex) string {
   var url strings.Builder
   fmt.Fprintf(&url, "https://maps.googleapis.com/maps/api/directions/json?origin=")
 
@@ -39,12 +39,12 @@ func constructURL(origin, dest dt.Vertex) string {
   return url.String()
 }
 
-// getResponse is responsible for fetching the content of website which is specified
+// GetResponse is responsible for fetching the content of website which is specified
 // via the url.
 //
-// Input: url [ url link address ] i.e. string
-// Output: html [ html content in bytes ] i.e. []byte
-func getResponse(url string) []byte {
+//  Input: url [ url link address ] i.e. string
+//  Output: html [ html content in bytes ] i.e. []byte
+func GetResponse(url string) []byte {
   resp, err := http.Get(url)
 
   // handle the error if there is one

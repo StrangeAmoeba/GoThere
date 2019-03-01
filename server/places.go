@@ -9,8 +9,8 @@ import dt "concurrency-9/dataTypes"
 // Locations returns a map[string] of type dt.Vertex.
 // Other packages can access these places using Locations()
 //
-// Input: None
-// Output: A map[string] dt.Vertex
+//  Input: None
+//  Output: A map[string] dt.Vertex
 var Locations = func() map[string]dt.Vertex {
   return map[string]dt.Vertex{
     "ahmedguda": dt.Vertex{
@@ -89,8 +89,8 @@ var Locations = func() map[string]dt.Vertex {
 // LocKeys returns a [35]string of placecs in human readable format.
 // Other packages can access these places using LocKeys()
 //
-// Input: None
-// Output: A array of places i.e. [35]string
+//  Input: None
+//  Output: A array of places i.e. [35]string
 var LocKeys = func() [35]string {
   return [35]string{
     "Ahmedguda",

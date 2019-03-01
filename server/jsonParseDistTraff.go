@@ -11,21 +11,21 @@ import (
   "time"
 )
 
-// distTraffic uses the google directions api and with the help of
+// DistTraffic uses the google directions api and with the help of
 // defined struct to parse json, we obtain distance and traffic weights
 // calls assignWeight() to normalize the two parameters into one weight.
 // key1 also serves the id for the go thread out of the 35 ones used.
 //
-// Input: key1[ to assign the weight to the DistMatrix ] i.e. int, loc1[ origin of the route ] i.e. string
-// key1[ to assign the weight to the DistMatrix ] i.e. int, loc2[ origin of the route ] i.e. string
-// Output: weight[ weight of edge between the two locations ] i.e. float64
-func distTraffic(key1 int, loc1 string, key2 int, loc2 string) {
+//  Input: key1[ to assign the weight to the DistMatrix ] i.e. int, loc1[ origin of the route ] i.e. string
+//         key1[ to assign the weight to the DistMatrix ] i.e. int, loc2[ origin of the route ] i.e. string
+//  Output: weight[ weight of edge between the two locations ] i.e. float64
+func DistTraffic(key1 int, loc1 string, key2 int, loc2 string) {
   var limit = false
   time.Sleep(time.Duration(key1*10) * time.Millisecond) // so that all request are not exactly made simutaneously.
   for {
-    var url = constructURL(Locations()[loc1], Locations()[loc2]) // externalApi
+    var url = ConstructURL(Locations()[loc1], Locations()[loc2]) // externalApi
 
-    var content = getResponse(url)
+    var content = GetResponse(url)
 
     var directions dt.DirInfo
     json.Unmarshal([]byte(content), &directions)
@@ -53,19 +53,19 @@ func distTraffic(key1 int, loc1 string, key2 int, loc2 string) {
     // var dist = randFloats(1000.0, 10000.0, 1) // debugging
     // var traff = randFloats(1000.0, 6000.0, 1) // debugging
 
-    DistMatrix[key1][key2] = assignWeight(dist, traff) // distanceMatrix
+    DistMatrix[key1][key2] = AssignWeight(dist, traff) // distanceMatrix
     return
     // getRespFile() - for debugging only
   }
 }
 
-// getRespFile is a helper function
+// GetRespFile is a helper function
 // useful for debugging. Can access json file to obtain the parsed data.
 // uses (server/example-route.json).
 //
-// Input: None
-// Output: None
-func getRespFile() {
+//  Input: None
+//  Output: None
+func GetRespFile() {
   jsonFile, err := os.Open("server/example-route.json")
 
   // if we os.Open returns an error then handle it
@@ -83,13 +83,13 @@ func getRespFile() {
   json.Unmarshal([]byte(byteValue), &directions)
 }
 
-// randFloats is a helper function
+// RandFloats is a helper function
 // useful for debugging. Generate an array of random float64
 //
-// Input: min[ minimum bound ] i.e. float64, max[ maximum bound ] i.e. float64
-// n[ size of random numbers array ] i.e. int
-// Output: res[ an array of random numbers ] i.e. []float64
-func randFloats(min, max float64, n int) []float64 {
+//  Input: min[ minimum bound ] i.e. float64, max[ maximum bound ] i.e. float64
+//         n[ size of random numbers array ] i.e. int
+//  Output: res[ an array of random numbers ] i.e. []float64
+func RandFloats(min, max float64, n int) []float64 {
   res := make([]float64, n)
 
   for i := range res {

@@ -26,14 +26,14 @@ var AvgSpeed = 15.5 // mps
 // We use go routines to create the matrix as quickly as possible.
 // WaitGroup is used to find if all go routines have completed their execution.
 //
-// Input: None
-// Output: None
+//  Input: None
+//  Output: None
 func CreateDistMatrix() {
-  checkMatrixFile()
+  CheckMatrixFile()
 
   // if matrix has been updated this day, return
   if updatedMatrix == true {
-    DistSliceMatrix = matToDynMat()
+    DistSliceMatrix = MatToDynMat()
     return
   }
 
@@ -59,7 +59,7 @@ func CreateDistMatrix() {
           break
         }
         if kI != kJ {
-          distTraffic(kI, vI, kJ, vJ) // jsonParseDistTraff - assign values to the matrix
+          DistTraffic(kI, vI, kJ, vJ) // jsonParseDistTraff - assign values to the matrix
         }
         time.Sleep(200 * time.Millisecond)
       }
@@ -73,21 +73,21 @@ func CreateDistMatrix() {
   // fall back to log incase google api is down or resulted in an error
   if updatedMatrix == true {
     fmt.Println("OVER QUERY LIMIT")
-    checkMatrixFile()
-    DistSliceMatrix = matToDynMat()
+    CheckMatrixFile()
+    DistSliceMatrix = MatToDynMat()
     return
   }
 
-  writeMatrixFile()
-  DistSliceMatrix = matToDynMat()
+  WriteMatrixFile()
+  DistSliceMatrix = MatToDynMat()
 }
 
-// matToDynMat is a helper function which converts the 35*35 matrix (DistMatrix)
+// MatToDynMat is a helper function which converts the 35*35 matrix (DistMatrix)
 // to a dynamic [][]float64 matrix in accordance with kruskals requirement.
 //
-// Input: None
-// Output: weight[ weight of edge between the two locations ] i.e. float64
-func matToDynMat() [][]float64 {
+//  Input: None
+//  Output: weight[ weight of edge between the two locations ] i.e. float64
+func MatToDynMat() [][]float64 {
   var mat [][]float64
 
   for i := 0; i < 35; i++ {
@@ -101,13 +101,13 @@ func matToDynMat() [][]float64 {
   return mat
 }
 
-// assignWeight is responsible to normalize the two weights - distance and traffic
+// AssignWeight is responsible to normalize the two weights - distance and traffic
 // into one weight.
 //
-// Input: dist[ weight representing distance of route ] i.e. float64,
-// traff[ weight representing traffic in route ] i.e. float64
-// Output: weight[ weight of edge between the two locations ] i.e. float64
-func assignWeight(dist, traff float64) float64 {
+//  Input: dist[ weight representing distance of route ] i.e. float64,
+//         traff[ weight representing traffic in route ] i.e. float64
+//  Output: weight[ weight of edge between the two locations ] i.e. float64
+func AssignWeight(dist, traff float64) float64 {
   var weight = dist
   weight += (dist * AvgSpeed)
 
@@ -115,14 +115,14 @@ func assignWeight(dist, traff float64) float64 {
   return weight / 1000
 }
 
-// checkMatrixFile is responsible to check if the current date stamp on file
+// CheckMatrixFile is responsible to check if the current date stamp on file
 // is different from current date.(Pacific Time Zone)
 // If the current date stamp matches with current date, then update DistMatrix
 // else update updatedMatrix accordingly.
 //
-// Input: None
-// Output: None
-func checkMatrixFile() {
+//  Input: None
+//  Output: None
+func CheckMatrixFile() {
   var file *os.File
   var err error
 
@@ -177,13 +177,13 @@ func checkMatrixFile() {
   }
 }
 
-// writeMatrixFile is responsible to store the generated weight matrix into a file for accessing
+// WriteMatrixFile is responsible to store the generated weight matrix into a file for accessing
 // the matrix on the same day later again. Saves api requests made to google api.
 // Only writes if the current date stamp on file is different from current date.(Pacific Time Zone)
 //
-// Input: None
-// Output: None
-func writeMatrixFile() {
+//  Input: None
+//  Output: None
+func WriteMatrixFile() {
   file, err := os.Create("distMatrix.log")
   if err != nil {
     fmt.Println(err)

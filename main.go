@@ -15,8 +15,8 @@ import (
 // find the user queried locations. The parsed data will consist of locations which
 // in turn will be converted to indices, each representing their index in the DistMatrix.
 //
-// Input: loc [ user queried locations from the form ] i.e. map[string][]string
-// Output: indices [ array of user queries locations in indices ] i.e. []int
+//  Input: loc [ user queried locations from the form ] i.e. map[string][]string
+//  Output: indices [ array of user queries locations in indices ] i.e. []int
 func getIndices(loc map[string][]string) []int {
 	var count = len(loc)
 	count = count / 2 // we dont need the key value of the field. only its value suffices
@@ -69,7 +69,7 @@ func determineListenAddress() (string, error) {
 	return ":" + port, nil
 }
 
-// serveForm is a handler which responds to an HTTP request.
+//serveForm is a handler which responds to an HTTP request.
 // Currently supports GET and POST requests.
 // Serves form.html in public
 //
