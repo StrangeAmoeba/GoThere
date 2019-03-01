@@ -15,7 +15,7 @@ We have a two server architecture.
 On pushes to **master**, jenkins runs tests and builds. If successful an image of the built app is pushed to docker hub.
 The deployment server is also triggered which pulls this image from docker hub and runs the latest app live, ensuring CI and CD.
 
-![arch](https://raw.githubusercontent.com/IITH-SBJoshi/concurrency-9/master/Untitled%20Diagram.png?token=AkF859x4WX2XwjdTCV81LMFAakR4BUlyks5cgoejwA%3D%3D)
+![arch](https://raw.githubusercontent.com/IITH-SBJoshi/concurrency-9/master/flowchart.png?token=AdPkfyyeBfG9vaAl0KEl5_1pJOkj6CGFks5cgo0iwA%3D%3D)
 
 ## Dependencies
 There are no third party go packages being used out of the ones in this repository.
@@ -39,11 +39,11 @@ go get golang.org/x/tools/cmd/goimports && go get golang.org/x/lint/golint && gi
 Follow the following comment format
 
 ```
-\\<function name>, <description>	
-\\<description>	
-\\	
-\\	Inputs: <name>[, description] i.e. type[, repeat].	
-\\	Outputs: <name>[, description] i.e. type[, repeat].	
+\\<function name>, <description>
+\\<description>
+\\
+\\	Inputs: <name>[, description] i.e. type[, repeat].
+\\	Outputs: <name>[, description] i.e. type[, repeat].
 ```
 
 ## About
@@ -52,7 +52,7 @@ This project is a partial fullfillment for CS2433 (Principles of Programming Lan
 
 ## Contributors
 
-Sai Harsha Kottapalli  
-Sagar Jain  
-Bogga Srinivas	
-Tanmay Renugunta  
+Sai Harsha Kottapalli
+Sagar Jain
+Tanmay Renugunta
+Bogga Srinivas
