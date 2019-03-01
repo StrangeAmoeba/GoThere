@@ -2,7 +2,7 @@ function initMap(loc_obj) {
   // loc_obj consists of info, lat, long of a place respectively, for paths and route_helpers
 
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 11,
+    zoom: 10,
     center: new google.maps.LatLng(17.386368, 78.482729),
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
@@ -11,9 +11,14 @@ function initMap(loc_obj) {
 
   var marker, i, length = loc_obj["path"].length;
 
+  // best path markers
+  // origin to be represented by red and other destinations by green
   for (i = 0; i < length; i++) {
     // uri-encode the svg html, with the marker id
-    var image = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22%23808080%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3Ctext%20transform%3D%22translate%2819%2018.5%29%22%20fill%3D%22%23fff%22%20style%3D%22font-family%3A%20Arial%2C%20sans-serif%3Bfont-weight%3Abold%3Btext-align%3Acenter%3B%22%20font-size%3D%2212%22%20text-anchor%3D%22middle%22%3E' + (i+1) + '%3C%2Ftext%3E%3C%2Fsvg%3E';
+    var image = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22%234EB892%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3Ctext%20transform%3D%22translate%2819%2018.5%29%22%20fill%3D%22%23fff%22%20style%3D%22font-family%3A%20Arial%2C%20sans-serif%3Bfont-weight%3Abold%3Btext-align%3Acenter%3B%22%20font-size%3D%2212%22%20text-anchor%3D%22middle%22%3E' + (i+1) + '%3C%2Ftext%3E%3C%2Fsvg%3E';
+    if (i === 0) { // red marker
+      image = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2238%22%20height%3D%2238%22%20viewBox%3D%220%200%2038%2038%22%3E%3Cpath%20fill%3D%22%23ED5D5D%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.5%22%20d%3D%22M34.305%2016.234c0%208.83-15.148%2019.158-15.148%2019.158S3.507%2025.065%203.507%2016.1c0-8.505%206.894-14.304%2015.4-14.304%208.504%200%2015.398%205.933%2015.398%2014.438z%22%2F%3E%3Ctext%20transform%3D%22translate%2819%2018.5%29%22%20fill%3D%22%23fff%22%20style%3D%22font-family%3A%20Arial%2C%20sans-serif%3Bfont-weight%3Abold%3Btext-align%3Acenter%3B%22%20font-size%3D%2212%22%20text-anchor%3D%22middle%22%3E1%3C%2Ftext%3E%3C%2Fsvg%3E';
+    }
 
     marker = new google.maps.Marker({
       position: new google.maps.LatLng(loc_obj["path"][i][1], loc_obj["path"][i][2]),
@@ -24,6 +29,30 @@ function initMap(loc_obj) {
     google.maps.event.addListener(marker, 'click', (function (marker, i) {
       return function () {
         infowindow.setContent(loc_obj["path"][i][0]);
+        infowindow.open(map, marker);
+      }
+    })(marker, i));
+  }
+
+  //route helper markers
+  length = loc_obj["route"].length
+  for (i = 0; i < length; i++) {
+
+    marker = new google.maps.Marker({
+      position: new google.maps.LatLng(loc_obj["route"][i][1], loc_obj["route"][i][2]),
+      map: map,
+      icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 7,
+          fillColor: "blue",
+          fillOpacity: 0.9,
+          strokeWeight: 0.5
+      },
+    });
+
+    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+      return function () {
+        infowindow.setContent(loc_obj["route"][i][0]);
         infowindow.open(map, marker);
       }
     })(marker, i));
