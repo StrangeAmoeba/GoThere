@@ -20,6 +20,12 @@ html, body {
   z-index: 1;
 }
 
+p {
+  display: inline;
+  font-family: 'JelleeRoman';
+  font-style: italic;
+}
+
 #map {
   position: absolute;
   width: calc(100% - 640px);
@@ -57,13 +63,19 @@ html, body {
 #form-title {
   display: block;
   width: 100%;
-  font-family: Poppins;
-  font-weight: bold;
-  font-size: 39px;
+  font-size: 50px;
   color: #333333;
   line-height: 1.2;
   text-align: left;
-  padding-bottom: 64px;
+  padding-bottom: 50px;
+}
+
+#go {
+  color: #ED5D5D;
+}
+
+#there  {
+  color:#4EB892
 }
 
 .form-group {
