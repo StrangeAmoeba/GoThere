@@ -1,3 +1,14 @@
+function mapCover() {
+  var map;
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {
+      lat: 17.386368,
+      lng: 78.482729
+    },
+    zoom: 10
+  });
+}
+
 function initMap(loc_obj) {
   // loc_obj consists of info, lat, long of a place respectively, for paths and route_helpers
 
@@ -59,6 +70,7 @@ function initMap(loc_obj) {
   }
 }
 
+/* Used the concept of uri-encoding for svg images for markers in map from TheMarufm's Codepen */
 /*<!--
 Copyright (c) 2019 by TheMarufm (https://codepen.io/TheMarufm/pen/ywFDe)
 
