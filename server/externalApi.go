@@ -4,6 +4,7 @@ import (
   dt "concurrency-9/dataTypes"
   "fmt"
   "io/ioutil"
+  "log"
   "net/http"
   "strings"
 )
@@ -20,6 +21,11 @@ func constructURL(origin, dest dt.Vertex) string {
 
   // server key
   var key = "AIzaSyDUJjTw3LKudLIxSj_saJQLHsmH_RTfa9w"
+
+  // check if error key is entered
+  if key == "" {
+    log.Fatal("Please enter your Google API Credential to continue...")
+  }
 
   // attach origin co-ordinates to the url
   fmt.Fprintf(&url, "%s%s%s%s", fmt.Sprint(origin.Lat), ",", fmt.Sprint(origin.Long), "&destination=")
