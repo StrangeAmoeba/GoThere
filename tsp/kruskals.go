@@ -14,8 +14,8 @@ var numberOfVertices int
 // GetAdjacencyList converts a graph in the form of an adjacency matrix to
 // an adjacency list.
 //
-// Input: matrix i.e. [][]float64
-// Output: al i.e. [][]dataTypes.GraphEdge
+//  Input: matrix i.e. [][]float64
+//  Output: al i.e. [][]dataTypes.GraphEdge
 func GetAdjacencyList(matrix [][]float64) [][]dt.GraphEdge {
   var al [][]dt.GraphEdge
   for i := 0; i < len(matrix); i++ {
@@ -52,9 +52,9 @@ func find(subsets []subset, i int) int {
 // Union computes the union of two disjoint sets, this particular implementation
 // uses parallelisation of any adjacent calls to improve speed.
 //
-// Input: subsets, the list of all subsets, i.e. []subset
-//  x, y,representative elements of subsets, i.e. int.
-// Output: No Output, union stored in subsets.
+//  Input: subsets, the list of all subsets, i.e. []subset
+//         x, y,representative elements of subsets, i.e. int.
+//  Output: No Output, union stored in subsets.
 func Union(subsets []subset, x int, y int) {
 
   // concurrently find the roots of both the
@@ -86,8 +86,8 @@ func Union(subsets []subset, x int, y int) {
 // , internally it is converted to an adjacency list. This is a parallelised form of Kruskal's algorithm,
 // where any adjacent calls are made parallely.
 //
-// Input: matrix i.e. [][]float64.
-// Output: results i.e. dataTypes.GraphEdge.
+//  Input: matrix i.e. [][]float64.
+//  Output: results i.e. dataTypes.GraphEdge.
 func Kruskals(matrix [][]float64) []dt.GraphEdge {
   numberOfVertices = len(matrix)
   V := numberOfVertices

@@ -8,8 +8,8 @@ import (
 
 // MergeSort, a parallel version of mergesort which brings down running time to O(n).
 //
-// Input: s i.e. dataTypes.GraphEdge
-// Output: s, sorted i.e. dataTypes.GraphEdge
+//  Input: s i.e. dataTypes.GraphEdge
+//  Output: s, sorted i.e. dataTypes.GraphEdge
 func MergeSort(s []dataTypes.GraphEdge) []dataTypes.GraphEdge {
 
 	// nearest power of 2 to len(s)

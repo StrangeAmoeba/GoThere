@@ -12,7 +12,7 @@ var floatMax = math.MaxFloat64
 
 // Getmat returns a dummy matrix of dimension mentioned in the file tsp.go
 //
-// Output: matrix, dummy matrix, i.e. [][]float64
+//  Output: matrix, dummy matrix, i.e. [][]float64
 func GetMat() [][]float64 {
 	// currently just dummy matrix
 	var matrix [][]float64
@@ -30,8 +30,8 @@ func GetMat() [][]float64 {
 // GetMST is a wrapper around destinationsMatrix() and kruskals()
 // it calls these two and returns the required matrix for tsp computation
 //
-// Input: matrix i.e. [][]float64, destinations i.e. int
-// Output: mst i.e. minimum spanning tree of the subgraph, i.e. []dataTypes.GraphEdge
+//  Input: matrix i.e. [][]float64, destinations i.e. int
+//  Output: mst i.e. minimum spanning tree of the subgraph, i.e. []dataTypes.GraphEdge
 func GetMST(matrix [][]float64, destinations []int) []dt.GraphEdge {
 
 	destinationsMatrix := CreateDestinationMatrix(matrix, destinations)
@@ -44,8 +44,8 @@ func GetMST(matrix [][]float64, destinations []int) []dt.GraphEdge {
 // from the parent graph, there is no loss of data in this as whenever it is called,it is after
 // an algorithm (say, dijkstra's) which incapsulates any important data from other nodes
 //
-// Input: matrix, the parent graph i.e. [][]float64, destinations i.e. []int
-// Output: destinations i.e. [][]float64
+//  Input: matrix, the parent graph i.e. [][]float64, destinations i.e. []int
+//  Output: destinations i.e. [][]float64
 func CreateDestinationMatrix(matrix [][]float64, destinations []int) [][]float64 {
 	var temp, temp1 [][]float64
 	for _, i := range destinations {
@@ -63,8 +63,8 @@ func CreateDestinationMatrix(matrix [][]float64, destinations []int) [][]float64
 
 // unique removes duplicates, keeping just the first entry of an element in a slice
 //
-// Input: intSlice, the slice we want to remove duplicates from i.e. []int
-// Output: list, the slice the duplicates removed i.e. []int
+//  Input: intSlice, the slice we want to remove duplicates from i.e. []int
+//  Output: list, the slice the duplicates removed i.e. []int
 func unique(intSlice []int) []int {
 	keys := make(map[int]bool)
 	list := []int{}
@@ -90,8 +90,8 @@ func getPos(intSlice []int, toFind int) int {
 // GetBestPath, takes in a graph, a subset of nodes of the same graph and gives the ideal
 // path to visit all of them in the least expensive way.
 //
-// Input: matrix, the full graph i.e. [][]float64, destinations, subset of nodes i.e. []int
-// Output: bestPath i.e. []int
+//  Input: matrix, the full graph i.e. [][]float64, destinations, subset of nodes i.e. []int
+//  Output: bestPath i.e. []int
 func GetBestPath(matrix [][]float64, destinations []int) ([]int, []int) {
 	destinations = unique(destinations)
 	firstDst := destinations[0]

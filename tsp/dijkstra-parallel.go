@@ -51,8 +51,8 @@ func Delete(head *node, min int) *node {
 // ComputeLocalMin is a Helper function for SingleSourceShortestPath function.
 // It returns the minimum of all the local minimas of the given vertices
 //
-// Input   : A *node, head of list containing all vertices in cluster.
-// Outputs : A *node containing the Local minimum.
+//  Input   : A *node, head of list containing all vertices in cluster.
+//  Outputs : A *node containing the Local minimum.
 func ComputeLocalMin(mem *node) *node {
 	minNode := mem
 	temp := mem
@@ -68,9 +68,9 @@ func ComputeLocalMin(mem *node) *node {
 // ComputeGlobalMin is a Helper function for Dijkstra function.
 // It returns the minimum of all the local minimas of the given vertices
 //
-// Input   : A []*node slice containing all the Local minimum computed parallely
-//	     by Go routines.
-// Outputs : A *node containing the global minimum.
+//  Input   : A []*node slice containing all the Local minimum computed parallely
+//	     			by Go routines.
+//  Outputs : A *node containing the global minimum.
 func ComputeGlobalMin(local []*node) *node {
 	minNode := &node{index: -1, dist: Inf}
 	for _, v := range local {
@@ -128,9 +128,9 @@ func ClusterAnalysis(members *node, source int,
 // The function returns the least weight and corresponding path from a source
 // vertex to destination vertex in the graph.
 //
-// Input   : A single int, representing the source vertex
+//  Input   : A single int, representing the source vertex
 //	     A [][]float64 slice ,representing the Adjacency Matrix of the Graph
-// Outputs : A [] float64, containing the minimum distances from source to all vertices
+//  Outputs : A [] float64, containing the minimum distances from source to all vertices
 //	     A [][]int slice containing the minimum paths from source to all vertices
 func SingleSourceShortestPath(source int, matrix [][]float64) ([]float64, [][]int) {
 	partitions := 4
@@ -202,8 +202,8 @@ func SingleSourceShortestPath(source int, matrix [][]float64) ([]float64, [][]in
 
 // Dijkstra parses the graph, and returns the least weight of all paths between any
 // two vertices in the graph
-// Input   : A [][]float64 slice, representing the Adjacency Matrix of the graph
-// Outputs : A [][]float64 slice, containing the minimum path weights between any two vertices
+//  Input   : A [][]float64 slice, representing the Adjacency Matrix of the graph
+//  Outputs : A [][]float64 slice, containing the minimum path weights between any two vertices
 //	     A [][][]int slice, containing the minimum paths between any two vertices
 func Dijkstra(matrix [][]float64) ([][]float64, [][][]int) {
 	var minGraph [][]float64 = make([][]float64, len(matrix))

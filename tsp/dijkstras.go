@@ -35,9 +35,9 @@ func FindMinVertex(weights []float64, tracker []bool) int {
 // The function returns the least weight for all paths from a single source vertex
 // to all the other vertices in graph.
 //
-// Input:   A [][]float64 slice, representing the Adjacency Matrix for the graph
+//  Input:   A [][]float64 slice, representing the Adjacency Matrix for the graph
 //          A single int, representing the source vertex
-// Outputs: A []float64 slice containg the smallest weights for all paths from the source
+//  Outputs: A []float64 slice containg the smallest weights for all paths from the source
 //          vertex to other vertices
 //          A 2D slice containing the minimum paths from vertex i to j i.e. [][]int
 func SingleSourceDijkstras(matrix [][]float64, src int) ([]float64, [][]int) {
@@ -74,8 +74,8 @@ func SingleSourceDijkstras(matrix [][]float64, src int) ([]float64, [][]int) {
 // Dijkstras parses a graph, and returns the least weight of all the paths between
 // any two vertices in the graph
 //
-// Input:   A [][]float64 slice, representing the Adjacency Matrix of the graph
-// Outputs: A [][]float64 slice, which contains the minimum weight for the shortest path
+//  Input:   A [][]float64 slice, representing the Adjacency Matrix of the graph
+//  Outputs: A [][]float64 slice, which contains the minimum weight for the shortest path
 //          between two vertices
 //          A 3D int slice, representing the mininimum paths b/w any two vertices of the
 //          graph i.e. [][][]int
