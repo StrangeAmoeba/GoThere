@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var next = 1;
+    var next = 2;
     $(".add-more").click(function(e){
         e.preventDefault();
         var addto = "#loc" + next;

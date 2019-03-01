@@ -2,7 +2,6 @@ package tsp
 
 import (
 	dt "concurrency-9/dataTypes"
-	"fmt"
 	"math"
 )
 
@@ -103,6 +102,5 @@ func GetBestPath(matrix [][]float64, destinations []int) ([]int, []int) {
 			bestPathWithInternalNodes = bestPathWithInternalNodes[0 : len(bestPathWithInternalNodes)-1]
 		}
 	}
-	fmt.Println(bestPath, unique(bestPathWithInternalNodes))
 	return bestPath, bestPathWithInternalNodes
 }

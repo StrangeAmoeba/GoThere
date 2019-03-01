@@ -1,4 +1,4 @@
-$( "#go-form" ).submit(function( event ) {
+$("#go-form").submit(function( event ) {
 
   // Stop form from submitting normally
   event.preventDefault();
@@ -6,7 +6,24 @@ $( "#go-form" ).submit(function( event ) {
   // Get some values from elements on the page:
   var $form = $( this ),
     term = $('form').serializeArray(),
-    url = $form.attr( "action" );
+    url = $form.attr("action");
+
+  // error handling
+  var i, length = term.length, input_err = false;
+  for (i = 0; i < length; i++) {
+    if (term[i].value === "Choose...") {
+      input_err = true;
+      break;
+    }
+  }
+
+  if (input_err) {
+    var content = "Invalid data entered !";
+    $("#error").empty().append(content);
+    return;
+  } else {
+    $("#error").empty()
+  }
 
   // Send the data using post
   var posting = $.post( url, { "form_data": term } );
