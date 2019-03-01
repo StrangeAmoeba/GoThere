@@ -72,6 +72,7 @@ func CreateDistMatrix() {
   // fmt.Println("check", DistMatrix) // debugging
   // fall back to log incase google api is down or resulted in an error
   if updatedMatrix == true {
+    fmt.Println("OVER QUERY LIMIT")
     checkMatrixFile()
     DistSliceMatrix = matToDynMat()
     return

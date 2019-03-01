@@ -31,8 +31,7 @@ func distTraffic(key1 int, loc1 string, key2 int, loc2 string) {
     json.Unmarshal([]byte(content), &directions)
 
     if strings.Compare(directions.Status, "OVER_QUERY_LIMIT") == 0 {
-      fmt.Println("OVER QUERY LIMIT")
-
+      // notify in distanceMatrix.go after determining if daily limit was exceeded or not.
       // now call with 1s timer, then we determine daily limit is exceeded
       if limit == false {
         time.Sleep(1100 * time.Millisecond)
@@ -44,7 +43,7 @@ func distTraffic(key1 int, loc1 string, key2 int, loc2 string) {
       updatedMatrix = true
       return
     } else if strings.Compare(directions.Status, "OK") != 0 {
-      fmt.Println("ERROR - GOOGLE API REJECTED QUERY")
+      fmt.Println("ERROR - GOOGLE API REJECTED QUERY", directions.Status)
       updatedMatrix = true
       return
     }
