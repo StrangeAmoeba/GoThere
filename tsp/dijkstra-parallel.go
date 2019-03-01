@@ -67,7 +67,7 @@ func ComputeLocalMin(mem *node) (*node){
 // It returns the minimum of all the local minimas of the given vertices
 // 
 // Input   : A []*node slice containing all the Local minimum computed parallely
-//			 by Go routines.
+//	     by Go routines.
 // Outputs : A *node containing the global minimum.
 func ComputeGlobalMin(local []*node) (*node){
 	minNode := &node{index : -1,dist:Inf}
@@ -83,14 +83,12 @@ func ComputeGlobalMin(local []*node) (*node){
 
 // ClusterAnalysis function is a Helper function to SingleSourceShortestPath function.
 // Input  : A *node, head of the Linked list containing the nodes of Cluster
-//			A single int ,containing source vertex.
-//			A single int ,containing dest vertex
-//			A chan *node used to send the Local minimum to the main thread
-//			A chan int to send the signal to confirm that go routines exited
-//			A [][]float64 slice, representing the graph
+//	    A single int ,containing source vertex.
+//	    A chan *node used to send the Local minimum to the main thread
+//          A chan int to send the signal to confirm that go routines exited
+//	    A [][]float64 slice, representing the graph
 func ClusterAnalysis(members *node,source int,
-	dest int,ch chan *node,quit chan int,matrix [][] float64){
-	//TODO : can use priority queues instead of linked list to store vertices
+	ch chan *node,quit chan int,matrix [][] float64){
 	s := source
 	var d float64
 	d = 0
@@ -109,41 +107,37 @@ func ClusterAnalysis(members *node,source int,
 		}
 		minNode := ComputeLocalMin(members)
 		ch <- minNode
-		globalMin := <- ch
+		gMin := <- ch
 		if minNode != nil{
-			if minNode.index == globalMin.index{
+			if minNode.index == gMin.index{
 				members = Delete(members,minNode.index)
 			}
 		}
-		if globalMin.index == dest{
+		if gMin.index == -1{
 			quit <- 0
 			break
 		}
-		s = globalMin.index
-		d = globalMin.dist
-	}	
+		s = gMin.index
+		d = gMin.dist
+	}
 }
 
-// SingleSourceShortestPath is a helper function for Dijkstra function.
+// SingleSourceShortestPath is a helper function for Dijkstra function
 // The function returns the least weight and corresponding path from a source
 // vertex to destination vertex in the graph.
 //
 // Input   : A single int, representing the source vertex
-//		     A single int, representing the destination vertex
-//		     A [][]float64 slice ,representing the Adjacency Matrix of the Graph
-// Outputs : A single float64, containing the minimum distance from source to vertex
-//			 A []int slice containing the minimum path from source to destination
-func SingleSourceShortestPath(source int,dest int,matrix [][]float64) (float64, []int){
-	if(source == dest){
-		var p[] int
-		p = append(p,source)
-		return 0,p	
-	}
+//	     A [][]float64 slice ,representing the Adjacency Matrix of the Graph
+// Outputs : A [] float64, containing the minimum distances from source to all vertices
+//	     A [][]int slice containing the minimum paths from source to all vertices
+func SingleSourceShortestPath(source int,matrix [][]float64) ([]float64, [][]int){
 	partitions := 4
 	V := len(matrix)
 	ch := make([]chan *node,partitions)
 	quit := make(chan int)
 	members := make([]*node,partitions)
+	cluster := make(map[int]*node)
+	cluster[source] = &node{index:source,dist:0}
 	var i int
 	for i = 0 ;i < partitions ; i++{
 		ch[i] = make(chan *node)
@@ -154,25 +148,24 @@ func SingleSourceShortestPath(source int,dest int,matrix [][]float64) (float64, 
 		}
 	}
 	for i = 0 ; i< partitions ; i++{
-		go ClusterAnalysis(members[i],source,dest,ch[i],quit,matrix)
+		go ClusterAnalysis(members[i],source,ch[i],quit,matrix)
 	}
-	globalMin := make([]*node,partitions)
+	gMin := make([]*node,partitions)
 	pred := make(map[int]int)
 	pred[source] = -1
 	c := 0
 	var m *node 
 	for {
 		for i = 0 ; i< partitions ;i++{
-			globalMin[i] = <-ch[i]
+			gMin[i] = <-ch[i]
 		}
-		m = ComputeGlobalMin(globalMin)
+		m = ComputeGlobalMin(gMin)
+		cluster[m.index] = m
 		pred[m.index] = m.pred
 		for i = 0 ; i< partitions ;i++{ 
 			ch[i] <- m
 		}
-		if m.index == dest{
-			break
-		}
+		if m.index == -1 {break}
 	}
 	for{
 		select{
@@ -182,38 +175,41 @@ func SingleSourceShortestPath(source int,dest int,matrix [][]float64) (float64, 
 		}
 		if c == partitions{break}
 	}
-	var path[]int
-	pre := dest
-	for{
-		path = append([]int{pre},path...)
-		pre = pred[pre]
-		if pre == -1{break}
+	var minWeights []float64 = make([]float64,len(matrix))
+	var minPath [][]int = make([][]int,len(matrix))
+	var pre int
+	for i = 0 ; i < len(matrix) ; i++{
+		minWeights[i] = cluster[i].dist
+		var path[]int
+		pre = i
+		for{
+			path = append([]int{pre},path...)
+			pre = pred[pre]
+			if pre == -1{break}
+		}
+		minPath[i] = path	
 	}
-	return m.dist,path
+	return minWeights,minPath
 }
 
 // Dijkstra parses the graph, and returns the least weight of all paths between any
 // two vertices in the graph
 // Input   : A [][]float64 slice, representing the Adjacency Matrix of the graph
 // Outputs : A [][]float64 slice, containing the minimum path weights between any two vertices
-//			 A [][][]int slice, containing the minimum paths between any two vertices
+//	     A [][][]int slice, containing the minimum paths between any two vertices
 func Dijkstra(matrix [][]float64) ([][]float64,[][][]int){
 	var minGraph [][]float64 = make([][]float64, len(matrix))
 	var minPaths [][][]int = make([][][]int,len(matrix))
 	var nodeWg sync.WaitGroup
 
-	nodeWg.Add(len(matrix)*len(matrix))
-	for src := 0 ; src < len(matrix) ;src++{ 
-		minGraph[src] = make([]float64,len(matrix))
-		minPaths[src] = make([][]int,len(matrix))
-		for dest := 0 ;dest < len(matrix) ;dest++{
-			go func(src int,dest int) {
-				var minpath[]int 
-				minGraph[src][dest],minpath = SingleSourceShortestPath(src,dest,matrix)
-				minPaths[src][dest] = minpath
-				nodeWg.Done()
-			}(src,dest)
-		}
+	nodeWg.Add(len(matrix))
+	for src := 0 ; src < len(matrix) ;src++{
+		go func(src int) {
+			var minpath[][]int 
+			minGraph[src],minpath = SingleSourceShortestPath(src,matrix)
+			minPaths[src] = minpath
+			nodeWg.Done()
+		}(src)
 	}
 	nodeWg.Wait()
 	return minGraph,minPaths
