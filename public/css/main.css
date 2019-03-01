@@ -123,6 +123,12 @@ p {
 .add-more, .remove-me {
   margin-top: 10px;
   margin-left: 5px;
+  width: 35px;
+}
+
+.loc-dropdown option{
+  display: block;
+  margin: 5px 0px;
 }
 
 .form-btn-container {
