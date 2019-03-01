@@ -95,7 +95,7 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
     var indices = getIndices(r.Form)
 
     sort.Ints(indices) // sort the locations indices in increasing order
-    var bestPath = tsp.GetBestPath(server.DistSliceMatrix, indices)
+    var bestPath, route_helper = tsp.GetBestPath(server.DistSliceMatrix, indices)
 
     // keys to get the locations - Lat and Long, from given index
     keys := make([]string, 0)
@@ -105,6 +105,7 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
     // give ordering for optimizing search
     sort.Strings(keys)
 
+    // best_path markers
     var length = len(bestPath)
 
     // write with JSON parsable string syntax
@@ -121,6 +122,29 @@ func serveForm(w http.ResponseWriter, r *http.Request) {
         server.LocKeys()[bestPath[i]],
         server.Locations()[keys[bestPath[i]]].Lat,
         server.Locations()[keys[bestPath[i]]].Long)
+    }
+    // close the json stringified array for the best path
+    fmt.Fprintf(&json, "], ")
+
+    // route_markers
+    length = len(route_helper)
+
+    // continue with JSON parsable string syntax
+    // start route with json stringified array and the first route marker if it exists
+    fmt.Fprintf(&json, "\"route\":[")
+    if length != 0 {
+      fmt.Fprintf(&json, "[\"%v\", \"%v\", \"%v\"]",
+        server.LocKeys()[route_helper[0]],
+        server.Locations()[keys[route_helper[0]]].Lat,
+        server.Locations()[keys[route_helper[0]]].Long)
+    }
+
+    // append the locations to the json stringified array
+    for i := 1; i < length; i++ {
+      fmt.Fprintf(&json, ", [\"%v\", \"%v\", \"%v\"]",
+        server.LocKeys()[route_helper[i]],
+        server.Locations()[keys[route_helper[i]]].Lat,
+        server.Locations()[keys[route_helper[i]]].Long)
     }
     // close the json stringified array
     fmt.Fprintf(&json, "]}")

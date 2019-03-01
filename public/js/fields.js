@@ -52,7 +52,6 @@ $(document).ready(function(){
         $("#loc" + next).attr('data-source',$(addto).attr('data-source'));
         $('.remove-me').click(function(e){
             e.preventDefault();
-            console.log(this.id.slice(6));
             var fieldNum = this.id.slice(6);
             var fieldID = "#loc" + fieldNum;
             $(this).remove();

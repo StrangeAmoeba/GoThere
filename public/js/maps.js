@@ -1,5 +1,5 @@
 function initMap(loc_obj) {
-  // loc_obj consists of info, lat, long of a place respectively.
+  // loc_obj consists of info, lat, long of a place respectively, for paths and route_helpers
 
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 11,
