@@ -15,18 +15,20 @@ We have a two server architecture.
 On pushes to **master**, jenkins runs tests and builds. If successful an image of the built app is pushed to docker hub.
 The deployment server is also triggered which pulls this image from docker hub and runs the latest app live, ensuring CI and CD.
 
-![arch](https://raw.githubusercontent.com/IITH-SBJoshi/concurrency-9/master/flowchart.png?token=AdPkfyyeBfG9vaAl0KEl5_1pJOkj6CGFks5cgo0iwA%3D%3D)
+![arch](https://raw.githubusercontent.com/SaiHarshaK/concurrency-9/master/flowchart.png?token=AdPkfxCyU_IHJvdDY9bgF6jKwLmcRKHoks5cl5W_wA%3D%3D)
 
 ## Dependencies
 There are no third party go packages being used out of the ones in this repository.
-We use Google APIs for distance/traffic/map data, credentials need to be provided in ```externalApi.go``` to run.
+We use Google APIs for distance/traffic/map data, credentials need to be provided in - 
+* [```externalApi.go```](server/externalApi.go) - for using Google APIs (distance/traffic)
+* [```form.html```](public/form.html) - for using Google APIs (map)
 **Jenkins** and **Docker** are used for CI/CD and containerisation.
 ## Instructions
 To run the application do the following :
 - cd into your go workspace
 ``` cd $GOPATH/src ```
 - clone the repository
-``` git clone git@github.com:IITH-SBJoshi/concurrency-9.git ```
+``` git clone git@github.com:SaiHarshaK/concurrency-9.git ```
 - run the main.go
 ``` go run main.go ```
 ## Contributor Instructions
@@ -52,7 +54,7 @@ This project is a partial fullfillment for CS2433 (Principles of Programming Lan
 
 ## Contributors
 
-Sai Harsha Kottapalli
-Sagar Jain
-Tanmay Renugunta
-Bogga Srinivas
+Sai Harsha Kottapalli  
+Sagar Jain  
+Tanmay Renugunta  
+Bogga Srinivas  
